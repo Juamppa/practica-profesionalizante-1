@@ -1,14 +1,13 @@
 **DICCIONARIO DE DATOS** 
 
-usuario \= nombre \+ apellido \+ @DNI \+ @teléfono \+ @email
+usuario \= nombreUsuario \+ apellidoUsuario \+ @DNI \+ @email
 
-precio \= 1{precio}7 
+servicio \= \[corte | barba | tintura\] \+ precioServicio
 
-servicio \= \[corte | barba | tintura | corte+barba | corte+tintura | corte+barba+tintura | tintura+barba\]
+profesional \= nombreProfesional \+ apellidoProfesional 
 
-turno \= fecha \+ hora \+ profesional \+ servicio \+ precio 
+turno \= fecha \+ hora \+ profesional \+ servicio \+ precioTotal
 
-profesional \= nombre \+ apellido 
 
   
    
