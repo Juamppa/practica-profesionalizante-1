@@ -2,11 +2,14 @@
 
 usuario \= nombre \+ apellido \+ @DNI \+ @teléfono \+ @email
 
-turno \= fecha \+ hora 
+precio \= 1{precio}7 
+
+servicio \= \[corte | barba | tintura | corte+barba | corte+tintura | corte+barba+tintura | tintura+barba\]
+
+turno \= fecha \+ hora \+ profesional \+ servicio \+ precio 
 
 profesional \= nombre \+ apellido 
 
-servicio \= \[corte | barba | tintura\]  
+  
    
-precio \= 1{precio}6 
 
