@@ -28,15 +28,3 @@
 
 *  La aplicación debe estar desarrollada con tecnologías web estándar (HTML, CSS, JavaScript).
 
-## **Requerimientos de Dominio** 
-
-*  Un profesional no puede tener dos turnos asignados al mismo tiempo.
-
-*  Los horarios disponibles dependen de la agenda de cada profesional.
-
-*  La barbería solo atiende en horario laboral (por ejemplo, de martes a sábado de 10:00 a 20:00 hs).
-
-* La confirmación por WhatsApp debe enviarse como máximo 1 minuto después de hecha la reserva.
-
-* Se debe registrar cada reserva con un identificador único.
-
