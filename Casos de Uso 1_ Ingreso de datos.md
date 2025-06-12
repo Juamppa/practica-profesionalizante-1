@@ -3,7 +3,7 @@
 **Caso de Uso:** Ingreso de datos
 
 **Actores:**   
-\-Cliente (primario)
+\-Usuario (primario)
 
 **Pre-condiciones:**   
 \-El usuario debe contar con acceso a internet.
