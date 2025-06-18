@@ -11,6 +11,7 @@ Restricciones
 *  Los horarios disponibles dependen de la agenda de cada profesional.
 *  No aceptar turnos de clientes deudores.
 *  Los turnos solicitados despues de las 20:00, seran confirmados a primera hora del siguiente día habil. 
+*  Los turnos pueden ser cancelados unicamente con 24 horas o más de anticipación.
  
 Acciones disparadoras  
 * La confirmación por WhatsApp debe enviarse como máximo 1 minuto después de hecha la reserva.  
