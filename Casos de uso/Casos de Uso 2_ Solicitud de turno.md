@@ -15,7 +15,8 @@
 3. El sistema muestra en pantalla fecha y hora a seleccionar.  
 4. El usuario selecciona la fecha y hora.  
 5. El sistema muestra en pantalla los profesionales disponibles.  
-6. El usuario selecciona uno de los profesionales.  
+6. El usuario selecciona uno de los profesionales.
+7. El sistema envia la confirmación del turno a el usuario.
    
 
 **Caminos alternativos:**  
