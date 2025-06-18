@@ -29,3 +29,7 @@ El usuario ingresa a la interfaz principal.
 **Escenario de fracaso:**  
 El usuario ingresa mal sus datos y no puede ingresar a la interfaz principal.  
 La página está fuera de servicio.
+
+**Post-condiciones:**
+1. El usuario debe poder ingresar a la solicitud de turnos.
+2. El sistema almacena los datos del usurio ingresados en la base de datos.
