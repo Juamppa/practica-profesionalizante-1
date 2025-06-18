@@ -1,6 +1,6 @@
 **DICCIONARIO DE DATOS** 
 
-usuario \= nombreUsuario \+ apellidoUsuario \+ @DNI \+ @email
+usuario \= nombreUsuario \+ apellidoUsuario \+ teléfono \+ @DNI \+ @email
 
 servicio \= \[corte | barba | tintura\] \+ precioServicio
 
