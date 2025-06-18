@@ -27,3 +27,7 @@ El usuario puede agendar el servicio el día seleccionado.
 
 **Escenario de fracaso:**  
 El usuario no puede agendar el día por falta de disponibilidad de los profesionales.  
+
+**Post-condiciones:**
+1. El usuario debe poder reservar el turno.
+2. El debe quedar guardado en la base de datos.
