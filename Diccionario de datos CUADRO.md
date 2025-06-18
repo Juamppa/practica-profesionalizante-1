@@ -9,5 +9,5 @@
 |apellidoProfesional| Apellido del profesional | 100 |Char |Continuo [a-Z] |
 |fechaHora|Fecha y hora del turno |15 |DateTime |Discreto |
 |servicio| Tipo de servicio | 15 | String | Discreto |
-| precioTotal    | Valor del servicio     | 6 | float  |  Continuo [0-9]  |´
-| teléfono    | Teléfono del usuario     | 20 | int  |  Continuo [0-9]  |
+| precioTotal    | Valor del servicio     | 6 | Float  |  Continuo [0-9]  |´
+| teléfono    | Teléfono del usuario     | 20 | Int  |  Continuo [0-9]  |
