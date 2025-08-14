@@ -16,11 +16,11 @@
 4. El usuario selecciona la fecha y hora.  
 5. El sistema muestra en pantalla los profesionales disponibles.  
 6. El usuario selecciona uno de los profesionales.
-7. El sistema envia la confirmación del turno a el usuario.
+7. El sistema envia la confirmación del turno al usuario.
    
 
 **Caminos alternativos:**  
-6.a No hay profesionales disponibles para la fecha y horario seleccionados.Vuelve al paso 5
+6.a No hay profesionales disponibles para la fecha y horario seleccionados. Vuelve al paso 5.
 
 **Escenario de éxito:**   
 El usuario puede agendar el servicio el día seleccionado.
@@ -30,4 +30,4 @@ El usuario no puede agendar el día por falta de disponibilidad de los profesion
 
 **Post-condiciones:**
 1. El usuario debe poder reservar el turno.
-2. El debe quedar guardado en la base de datos.
+2. El turno debe quedar guardado en la base de datos.
