@@ -18,14 +18,19 @@
      
 
 **Caminos alternativos:** 
+
 **4.a.** Los datos ingresados son incorrectos o no válidos.
+
 **4.a.1.** El sistema muestra el mensaje “mail invalido”. Vuelve al paso 3.
+
 **4.a.2.** El sistema muestra el mensaje “teléfono inexistente”: Vuelve al paso 3.
+
 **7.a.** El usuario selecciona su turno fuera del tiempo estipulado para su cancelación.  
-**7.a.1** El sistema muestra en pantalla el mensaje “Su turno no puede ser cancelado con menos de 24 horas de antelación”.
+
+**7.a.1.** El sistema muestra en pantalla el mensaje “Su turno no puede ser cancelado con menos de 24 horas de antelación”.
 
 **Escenario de éxito:**   
-Se puedo cancelar el turno exitosamente.
+Se pudo cancelar el turno exitosamente.
 
 **Escenario de fracaso:**  
 El usuario no puede cancelar su turno.
