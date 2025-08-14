@@ -17,6 +17,7 @@
 5. El usuario accede a la interfaz principal. 
 
 **Caminos alternativos:**
+
 4.a. Los datos ingresados son incorrectos o no válidos.  
 4.a.1. El sistema muestra el mensaje “mail invalido”. Vuelve al paso 3\.  
 4.a.2. El sistema muestra el mensaje “teléfono inexistente”: Vuelve al paso 3\.  
