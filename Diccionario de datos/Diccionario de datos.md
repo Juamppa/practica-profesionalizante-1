@@ -2,7 +2,7 @@
 
 usuario \= nombreUsuario \+ apellidoUsuario \+ teléfono \+ @email
 
-usuario \= teléfonoAdministrador 
+administrador \= teléfonoAdministrador 
 
 servicio \= \[corte | barba | tintura\] \+ precioServicio
 
