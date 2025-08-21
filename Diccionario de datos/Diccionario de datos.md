@@ -1,6 +1,6 @@
 **DICCIONARIO DE DATOS** 
 
-usuario \= nombreUsuario \+ apellidoUsuario \+ teléfono \+ @email
+cliente \= nombreCliente \+ apellidoCliente \+ teléfono \+ @email
 
 administrador \= teléfonoAdministrador 
 
