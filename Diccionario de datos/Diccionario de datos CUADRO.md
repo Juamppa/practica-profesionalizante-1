@@ -2,7 +2,7 @@
 | ------------- |:-------------:|------------- |:-------------:|:-------------:|
 |   nombreUsuario    |  Nombre del usuario    | 100  |Char|Continuo [a-Z]   |
 |   apellidoUsuario   | Apellido del usuario  | 100  | Char  |  Continuo [a-Z]    |
-| DNI     | Dni del usuario    | 8  | Int  | Continuo [0-9]   |
+|  teléfonoAdministrador    | teléfono del administrador   | 20  | Int  | Continuo [0-9]   |
 | email    |  Email del usuario    | 100   | Char     | Continuo [a-Z0-9]    |
 |precioServicio| Precio del servicio | 6  | Float| Continuo [0-9] |
 |nombreProfesional| Nombre del profesional | 100 | Char | Continuo [a-Z]  |
