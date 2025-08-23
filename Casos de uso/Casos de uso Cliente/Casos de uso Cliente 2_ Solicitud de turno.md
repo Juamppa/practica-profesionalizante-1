@@ -24,4 +24,5 @@ El cliente puede agendar el servicio el día seleccionado.
 El cliente no puede agendar su turno.  
 
 **Post-condiciones:**
+
 El turno debe quedar guardado en la base de datos.
