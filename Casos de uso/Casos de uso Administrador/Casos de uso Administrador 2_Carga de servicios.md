@@ -22,7 +22,7 @@
 **6.a.1.** La página muestra en pantalla el mensaje "Hay un campo vacio, por favor rellenelo para continuar".
 
 **Escenario de éxito:**   
-El administrador pudo cargar los servicios con éxito.
+El administrador pudo cargar el o los servicios con éxito.
 
 **Escenario de fracaso:**  
 No se pudieron cargar los servicios correctamente.
