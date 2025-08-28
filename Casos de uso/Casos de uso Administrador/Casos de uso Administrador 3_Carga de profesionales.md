@@ -10,7 +10,7 @@
 
 1. La página muestra la opciones : "Agregar", "Eliminar" y "Modificar".
 2. El administrador selecciona la opción "Agregar".
-3. La página muestra las opciones "Agregar servicio"y "Agregar profesional".
+3. La página muestra las opciones "Agregar servicio" y "Agregar profesional".
 4. El administrador selecciona la opción "Agregar profesional".
 5. La página muestra los campos "Nombre", "Apellido" y "Disponibilidad".
 6. El administrador llena los campos "Nombre", "Apellido" y "Disponibilidad" y presiona el botón "Aceptar".
