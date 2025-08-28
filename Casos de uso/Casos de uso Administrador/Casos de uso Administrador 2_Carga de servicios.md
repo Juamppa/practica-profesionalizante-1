@@ -18,7 +18,9 @@
     
 
 **Caminos alternativos:** 
+
 **6.a.** El administrador olvidó rellenar uno de los campos.
+
 **6.a.1.** La página muestra en pantalla el mensaje "Hay un campo vacio, por favor rellenelo para continuar".
 
 **Escenario de éxito:**   
