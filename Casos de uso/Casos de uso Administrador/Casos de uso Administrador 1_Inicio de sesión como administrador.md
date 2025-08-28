@@ -24,11 +24,11 @@
 
 **5.a.** El número de teléfono ingresado no es correcto.
 
-**5.a.1.** La página muestra en pantalla el mensaje “El número de teléfono ingresado no es correcto”.
+**5.a.1.** La página muestra en pantalla el mensaje “El número de teléfono ingresado no es correcto”. Vuelve al paso 4.
 
 **7.a.** El código ingresado no es correcto.
 
-**7.a.1.** La página muestra en pantalla el mensaje “El código ingresado no es correcto”.
+**7.a.1.** La página muestra en pantalla el mensaje “El código ingresado no es correcto”. Vuelve al paso 4.
 
 **Escenario de éxito:**   
 Se pudo acceder a la interfaz de administrador exitosamente.
