@@ -10,7 +10,7 @@
 
 1. La página muestra la opciones : "Agregar", "Eliminar" y "Modificar".
 2. El administrador selecciona la opción "Eliminar".
-3. La página muestra las opciones "Eliminar servicio"y "Eliminar profesional".
+3. La página muestra las opciones "Eliminar servicio" y "Eliminar profesional".
 4. El administrador selecciona la opción "Eliminar servicio".
 5. La página muestra los servicios cargados.
 6. El administrador selecciona el o los servicios a eliminar y presiona el botón eliminar.
