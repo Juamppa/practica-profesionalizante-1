@@ -20,6 +20,7 @@
     
 
 **Caminos alternativos:** 
+
 **6.a.** El administrador no seleccionó ningún servicio
 
 **6.a.1.** La página muestra en pantalla el mensaje "Debe seleccionar al menos un servicio para modificar."
