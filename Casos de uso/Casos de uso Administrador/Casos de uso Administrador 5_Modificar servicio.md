@@ -10,7 +10,7 @@
 
 1. La página muestra la opciones : "Agregar", "Eliminar" y "Modificar".
 2. El administrador selecciona la opción "Modificar".
-3. La página muestra las opciones "Modificar servicio"y "Modificar profesional".
+3. La página muestra las opciones "Modificar servicio" y "Modificar profesional".
 4. El administrador selecciona la opción "Modificar servicio".
 5. La página muestra los servicios cargados.
 6. El administrador selecciona el servicio a Modificar.
