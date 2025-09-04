@@ -17,7 +17,7 @@
 7. El cliente accede a la interfaz principal del cliente.
 8. La página muestra en pantalla la opción "Cancelar turno".
 9. El cliente selecciona su turno a cancelar.
-10. La página cancela el turno con éxtio.
+10. La página cancela el turno con éxito.
      
 
 **Caminos alternativos:** 
