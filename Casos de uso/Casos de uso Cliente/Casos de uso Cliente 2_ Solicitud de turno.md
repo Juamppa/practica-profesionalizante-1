@@ -7,7 +7,8 @@
 
 **Camino básico:** 
 
-1. La página muestra en pantalla los servicios disponibles.  
+1. El cliente accede a la interfaz principal del cliente.
+2. La página muestra en pantalla los servicios disponibles.  
 2. El cliente selecciona uno de los servicios.  
 3. La página muestra en pantalla fecha y hora disponibles.  
 4. El cliente selecciona la fecha y hora.  
