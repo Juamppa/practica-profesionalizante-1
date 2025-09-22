@@ -1,0 +1,68 @@
+@startchen
+
+' =====================
+' Entidades
+' =====================
+entity Cliente {
+  ID_Cliente
+  nombre
+  apellido
+  email
+  telefono
+}
+
+entity Turno {
+  ID_Turno
+  fechaHora
+  precioTotal
+}
+
+entity Profesional {
+  ID_Profesional
+  nombre
+  especialidad
+}
+
+entity Administrador {
+  ID_Admin
+  nombre
+  email
+}
+
+entity Servicio {
+  nombreServicio
+  tipoServicio
+  precio
+}
+
+' =====================
+' Relaciones
+' =====================
+relationship Solicita {
+}
+
+relationship Atiende {
+}
+
+relationship Gestiona {
+}
+
+relationship Incluye {
+}
+
+' =====================
+' Conexiones con cardinalidades
+' =====================
+Cliente -N- Solicita
+Solicita -1- Turno
+
+Profesional -1- Atiende
+Atiende -N- Turno
+
+Administrador -1- Gestiona
+Gestiona -N- Turno
+
+Turno -1- Incluye
+Incluye -1- Servicio
+
+@endchen
