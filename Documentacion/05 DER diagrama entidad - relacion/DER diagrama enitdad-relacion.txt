@@ -27,7 +27,6 @@ entity Administrador {
 }
 
 entity Servicio {
-  nombre
   tipo
   precio
   duracion
