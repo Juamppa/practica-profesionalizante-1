@@ -3,36 +3,34 @@
 ' =====================
 ' Entidades
 ' =====================
-entity Cliente {
-  ID_Cliente
+entity Persona {
   nombre
   apellido
   email
   telefono
 }
 
+entity Cliente {
+}
+
 entity Turno {
-  ID_Turno
   fechaHora
   precioTotal
 }
 
 entity Profesional {
-  ID_Profesional
-  nombre
-  especialidad
+  Disponibilidad
+  Especialidad
 }
 
 entity Administrador {
-  ID_Admin
-  nombre
-  email
 }
 
 entity Servicio {
-  nombreServicio
-  tipoServicio
+  nombre
+  tipo
   precio
+  duracion
 }
 
 ' =====================
@@ -50,6 +48,15 @@ relationship Gestiona {
 relationship Incluye {
 }
 
+relationship Es_Profesional {
+}
+
+relationship Es_Cliente {
+}
+
+relationship Es_Administrador {
+}
+
 ' =====================
 ' Conexiones con cardinalidades
 ' =====================
@@ -64,5 +71,15 @@ Gestiona -N- Turno
 
 Turno -1- Incluye
 Incluye -1- Servicio
+
+' Relaciones individuales con Persona
+Persona -1- Es_Cliente
+Es_Cliente -1- Cliente
+
+Persona -1- Es_Profesional
+Es_Profesional -1- Profesional
+
+Persona -1- Es_Administrador
+Es_Administrador -1- Administrador
 
 @endchen
