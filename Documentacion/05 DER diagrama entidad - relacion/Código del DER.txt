@@ -19,7 +19,6 @@ entity Turno {
 }
 
 entity Profesional {
-  Disponibilidad
   Especialidad
 }
 
