@@ -15,7 +15,6 @@ entity Cliente {
 
 entity Turno {
   fechaHora
-  precioTotal
 }
 
 entity Profesional {
@@ -67,7 +66,8 @@ Atiende -N- Turno
 Administrador -1- Gestiona
 Gestiona -N- Turno
 
-Turno -1- Incluye
+' Un turno puede incluir varios servicios
+Turno -N- Incluye
 Incluye -1- Servicio
 
 ' Relaciones individuales con Persona
