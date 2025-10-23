@@ -15,19 +15,15 @@ class Persona {
 }
 
 class Cliente {
-  - nombreCliente : String [100]
-  - apellidoCliente : String [100]
-  - email : String [100]
-  - telefono : int [20]
+  - metodoDePago : String [50]
   + solicitarTurno(servicio : Servicio, fechaHora : DateTime)
   + cancelarTurno(turno : Turno)
   + verHistorialTurnos() : List<Turno>
 }
 
 class Profesional {
-  - nombreProfesional : String [100]
   - especialidad : String
-  + realizarServicio(turno : Turno)
+  + verAgenda() : List<Turno>
 }
 
 class Administrador {
@@ -40,9 +36,8 @@ class Administrador {
 
 class Turno {
   - fechaHora : DateTime [15]
-  - precioTotal : Float [6]
   - estado : String
-  + calcularPrecioServicios(listaServicios : List<Servicio>) : Float
+  + calcularPrecioServicios() : Float
   + cambiarEstado(nuevoEstado : String)
 }
 
