@@ -1,0 +1,46 @@
+@startuml
+actor Cliente
+boundary InterfazWeb
+control ControlIdentificacion
+control ControlTurno
+entity ValidadorDatos
+database BDClientes
+database BDTurnos
+
+Cliente -> InterfazWeb: Ingresar a la página
+InterfazWeb -> Cliente: Mostrar opciones (cliente / administrador)
+
+Cliente -> InterfazWeb: Seleccionar "Cliente"
+InterfazWeb -> Cliente: Solicitar nombre, apellido, teléfono y mail
+
+Cliente -> InterfazWeb: Ingresar datos
+InterfazWeb -> ControlIdentificacion: Enviar datos para validación
+ControlIdentificacion -> ValidadorDatos: Validar mail y teléfono
+ValidadorDatos -> BDClientes: Consultar datos del cliente
+BDClientes --> ValidadorDatos: Respuesta validación
+ValidadorDatos --> ControlIdentificacion: Resultado
+
+alt Datos válidos
+    ControlIdentificacion -> InterfazWeb: Acceso autorizado
+    InterfazWeb --> Cliente: Mostrar opción "Cancelar turno"
+
+    Cliente -> InterfazWeb: Seleccionar turno a cancelar
+    InterfazWeb -> ControlTurno: Solicitar cancelación
+    ControlTurno -> BDTurnos: Verificar tiempo del turno
+
+    alt Turno cancelable
+        BDTurnos --> ControlTurno: Turno dentro del plazo
+        ControlTurno -> BDTurnos: Actualizar estado del turno
+        ControlTurno --> InterfazWeb: Confirmar cancelación
+        InterfazWeb --> Cliente: “Turno cancelado con éxito”
+    else Turno fuera de tiempo
+        BDTurnos --> ControlTurno: Turno fuera de plazo
+        ControlTurno --> InterfazWeb: “No puede cancelar con menos de 24 h de antelación”
+        InterfazWeb --> Cliente: Mostrar mensaje de error
+    end
+
+else Datos inválidos
+    ControlIdentificacion --> InterfazWeb: Error en validación
+    InterfazWeb --> Cliente: “Mail inválido” o “Teléfono inexistente”
+end
+@enduml
