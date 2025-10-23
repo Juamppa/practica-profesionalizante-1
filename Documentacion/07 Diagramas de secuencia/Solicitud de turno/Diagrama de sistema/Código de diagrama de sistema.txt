@@ -1,0 +1,17 @@
+@startuml
+actor Cliente
+boundary PaginaWeb
+
+Cliente -> PaginaWeb: Accede a la interfaz principal del cliente
+PaginaWeb --> Cliente: Muestra servicios disponibles
+
+Cliente -> PaginaWeb: Selecciona servicio
+PaginaWeb --> Cliente: Muestra fechas y horas disponibles
+
+Cliente -> PaginaWeb: Selecciona fecha y hora
+PaginaWeb --> Cliente: Muestra profesionales disponibles
+
+Cliente -> PaginaWeb: Selecciona profesional
+PaginaWeb -> PaginaWeb: Generar código de verificación
+PaginaWeb --> Cliente: Enviar código único por WhatsApp
+@enduml
