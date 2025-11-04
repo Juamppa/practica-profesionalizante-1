@@ -1,0 +1,84 @@
+@startuml
+' Versión UML 2.5+
+!pragma teoz true
+
+' ==== CLASES ====
+
+class Persona {
+  - nombre : String [100]
+  - apellido : String [100]
+  - email : String [100]
+  - telefono : int [20]
+
+  + getNombre() : String
+  + getApellido() : String
+  + getEmail() : String
+  + getTelefono() : int
+
+  + setNombre(nombre : String)
+  + setApellido(apellido : String)
+  + setEmail(email : String)
+  + setTelefono(telefono : int)
+}
+
+class Cliente {
+}
+
+class Profesional {
+  - especialidad : String
+  - agendaProfesional : List<Turno>
+
+  + verAgenda() : List<Turno>
+}
+
+class Administrador {
+  - telefonoAdministrador : int [20]
+  - turnos : List<Turno>
+  - clientes : List<Cliente>
+
+  + asignarProfesional(turno : Turno, profesional : Profesional)
+  + crearServicio(tipo : String, precio : Float, duracion : String) : Servicio
+}
+
+class Turno {
+  - fechaHora : DateTime [15]
+  - estado : String
+  - servicio : Servicio
+
+  + calcularPrecioServicios() : Float
+  + cambiarEstado(nuevoEstado : String)
+  + consultarServicio() : Servicio
+}
+
+class Servicio {
+  - tipo : String [15]
+  - precio : Float [6]
+  - duracion : String
+
+  + getTipo() : String
+  + getPrecio() : Float
+  + getDuracion() : String
+  + setTipo(tipo : String)
+  + setPrecio(precio : Float)
+  + setDuracion(duracion : String)
+}
+
+class Controlador {
+}
+
+' ==== RELACIONES ====
+Persona <|-- Cliente
+Persona <|-- Profesional
+Persona <|-- Administrador
+
+Cliente "1" -- "N" Turno : solicita >
+Profesional "1" -- "N" Turno : atiende >
+Administrador "1" -- "N" Servicio : gestiona >
+Turno "1" -- "N" Servicio : incluye >
+
+' ==== NUEVAS RELACIONES ====
+Administrador "1" --> "1" Controlador : utiliza >
+Controlador --> Turno : gestiona >
+Controlador --> Servicio : administra >
+
+@enduml
