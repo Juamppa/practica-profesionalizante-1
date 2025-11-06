@@ -1,16 +1,58 @@
-# Descripción del proyecto
+## **Descripción del Proyecto**
 
-Docente: Sebastian Bruselario
+**Docente:** Sebastián Bruselario  
+**Integrantes del grupo:** Arminio Juan Pablo · Cuesta Gonzalo · Lagreca Agustín
 
-Integrantes del grupo: Arminio Juan Pablo \- Cuesta Gonzalo \- Lagreca Agustin \- Medina Alan
+---
 
-# Problema
+ **Problema**
 
-Actualmente, las barberías presentan dificultades para organizar los turnos de los clientes de manera ágil y ordenada. Esta situación genera desorganización, posibles superposiciones y una experiencia deficiente tanto para los clientes como para el personal. A su vez, muchas veces no se cuenta con una herramienta que permita al cliente conocer la disponibilidad, elegir al profesional, seleccionar la forma de pago y recibir una confirmación del turno de forma clara y automatizada.
+En la actualidad, muchas barberías enfrentan dificultades para gestionar los turnos de sus clientes de manera eficiente y organizada.  
+ La falta de un sistema adecuado provoca desorden, superposición de horarios y una experiencia poco satisfactoria tanto para los clientes como para el personal.
 
-# Sistema
+Además, en la mayoría de los casos no existe una herramienta que permita a los usuarios conocer la disponibilidad de los barberos, elegir al profesional de su preferencia, seleccionar un método de pago y recibir una confirmación automatizada del turno.  
+ Esto genera demoras, errores de comunicación y pérdida de tiempo tanto para el negocio como para los clientes.
 
-Es una página web para sacar turnos de barbería donde se muestra un formato simple.  
-Se selecciona el día y la hora, el profesional y que método de pago va a utilizar el cliente (transferencia o efectivo).  
-Luego la página te pide los datos para poder notificarte que el turno se reservó correctamente.
+## **Sistema Propuesto**
+
+El proyecto consiste en el desarrollo de una página web para la gestión de turnos de barbería, diseñada para brindar una experiencia simple, clara y rápida.
+
+A través del sitio, el cliente podrá:
+
+1. Visualizar la disponibilidad de turnos de cada barbero.
+
+2. Seleccionar el día, la hora y el profesional deseado.
+
+3. Completar sus datos personales para recibir una notificación de confirmación del turno.
+
+El sistema automatiza la asignación y confirmación de los turnos, reduciendo errores y mejorando la organización interna del negocio.  
+ De esta forma, se optimiza el tiempo del personal, se mejora la atención al cliente y se genera una experiencia más profesional y eficiente.
+
+## 
+
+## **Objetivo General**
+
+Desarrollar una herramienta web que permita digitalizar y simplificar la gestión de turnos en barberías, mejorando la comunicación entre el cliente y el establecimiento.
+
+**Objetivos Específicos**
+
+* Diseñar una interfaz intuitiva y accesible para cualquier usuario.
+
+* Implementar un sistema de reservas con validación de disponibilidad en tiempo real.
+
+* Facilitar la elección del barbero.
+
+* Generar notificaciones automáticas de confirmación de turno.
+
+* Reducir la carga administrativa del personal.
+
+## **Tecnologías Utilizadas**
+
+* ChatGpt  
+* Draw.io  
+* PlantUML  
+* Github web / Github Desktop  
+* Discord  
+* GoogleDocs  
+  
 
