@@ -1,0 +1,57 @@
+@startuml
+actor Cliente
+boundary InterfazWeb
+control Controlador
+entity Servicio
+entity Profesional
+entity Turno
+database BaseDatos
+collections WhatsAppAPI
+
+' Paso 1: El cliente accede a la interfaz principal
+Cliente -> InterfazWeb : accederInterfazPrincipal()
+
+' Paso 2: La página solicita los servicios disponibles al controlador
+InterfazWeb -> Controlador : obtenerServiciosDisponibles()
+Controlador -> Servicio : listarServicios()
+Servicio -> BaseDatos : SELECT * FROM Servicios
+BaseDatos --> Servicio : listaServicios
+Servicio --> Controlador : listaServicios
+Controlador --> InterfazWeb : listaServicios
+InterfazWeb -> Cliente : mostrarServicios(listaServicios)
+
+' Paso 3: El cliente selecciona un servicio
+Cliente -> InterfazWeb : seleccionarServicio(servicioSeleccionado)
+
+' Paso 4: La página solicita al controlador las fechas y horas disponibles
+InterfazWeb -> Controlador : obtenerFechasDisponibles(servicioSeleccionado)
+Controlador -> Turno : listarTurnosDisponibles(servicioSeleccionado)
+Turno -> BaseDatos : SELECT fechaHora FROM Turnos WHERE servicio = servicioSeleccionado AND estado = 'disponible'
+BaseDatos --> Turno : listaFechas
+Turno --> Controlador : listaFechas
+Controlador --> InterfazWeb : listaFechas
+InterfazWeb -> Cliente : mostrarFechas(listaFechas)
+
+' Paso 5: El cliente selecciona la fecha y hora
+Cliente -> InterfazWeb : seleccionarFechaHora(fechaHoraSeleccionada)
+
+' Paso 6: La página solicita los profesionales disponibles
+InterfazWeb -> Controlador : obtenerProfesionalesDisponibles(servicioSeleccionado, fechaHoraSeleccionada)
+Controlador -> Profesional : listarProfesionalesDisponibles(servicioSeleccionado, fechaHoraSeleccionada)
+Profesional -> BaseDatos : SELECT * FROM Profesionales WHERE disponibilidad = fechaHoraSeleccionada
+BaseDatos --> Profesional : listaProfesionales
+Profesional --> Controlador : listaProfesionales
+Controlador --> InterfazWeb : listaProfesionales
+InterfazWeb -> Cliente : mostrarProfesionales(listaProfesionales)
+
+' Paso 7: El cliente selecciona un profesional
+Cliente -> InterfazWeb : seleccionarProfesional(profesionalSeleccionado)
+
+' Paso 8: La página solicita al controlador el envío del código de verificación
+InterfazWeb -> Controlador : generarCodigoVerificacion(cliente)
+Controlador -> WhatsAppAPI : enviarCodigoVerificacion(cliente.telefono, codigoUnico)
+WhatsAppAPI --> Controlador : confirmacionEnvio()
+Controlador --> InterfazWeb : notificarEnvioExitoso()
+InterfazWeb -> Cliente : mostrarMensaje("Código enviado por WhatsApp")
+
+@enduml
