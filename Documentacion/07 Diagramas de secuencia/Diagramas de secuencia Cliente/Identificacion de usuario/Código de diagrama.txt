@@ -1,0 +1,41 @@
+@startuml
+actor Cliente
+boundary InterfazWeb
+control Controlador
+entity ClienteEntity
+database BaseDatos
+
+' Paso 1: El usuario ingresa a la página web
+Cliente -> InterfazWeb : ingresarPagina()
+
+' Paso 2: La página muestra opciones de inicio
+InterfazWeb -> Cliente : mostrarOpcionesLogin()
+
+' Paso 3: El usuario elige la opción "Cliente"
+Cliente -> InterfazWeb : seleccionarOpcion("Cliente")
+
+' Paso 4: La página solicita nombre, apellido, teléfono y mail
+InterfazWeb -> Cliente : solicitarDatos(nombre, apellido, telefono, email)
+
+' Paso 5: El cliente ingresa sus datos
+Cliente -> InterfazWeb : ingresarDatos(nombre, apellido, telefono, email)
+
+' Paso 6: La página envía los datos al controlador para validar
+InterfazWeb -> Controlador : validarDatos(nombre, apellido, telefono, email)
+
+' El controlador consulta en la base de datos si el cliente existe
+Controlador -> ClienteEntity : obtenerCliente(email, telefono)
+ClienteEntity -> BaseDatos : SELECT * FROM Cliente WHERE email, telefono
+BaseDatos --> ClienteEntity : datosCliente
+ClienteEntity --> Controlador : datosCliente
+
+' Verificación de validez
+alt Datos válidos
+    Controlador -> InterfazWeb : notificarValidacionExitosa()
+    InterfazWeb -> Cliente : mostrarInterfazPrincipal()
+else Datos inválidos
+    Controlador -> InterfazWeb : notificarError("mail inválido o teléfono inexistente")
+    InterfazWeb -> Cliente : mostrarMensajeError()
+end
+
+@enduml
