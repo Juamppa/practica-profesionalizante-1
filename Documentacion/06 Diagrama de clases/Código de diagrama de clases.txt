@@ -1,5 +1,5 @@
 @startuml
-' Versión UML 2.5+
+' Version UML 2.5+
 !pragma teoz true
 
 ' ==== CLASES ====
@@ -61,12 +61,13 @@ class Controlador {
   - clientes : List<Cliente>
   - turnos : List<Turno>
 
-  + crearServicio(tipo : String, precio : Float) : Servicio
   + reservarTurno()
+  + crearServicio(tipo : String, precio : Float) : Servicio
   + modificarServicio(servicio : Servicio, nuevoTipo : String, nuevoPrecio : Float)
   + eliminarServicio(servicio : Servicio)
   + agregarProfesional(profesional : Profesional)
   + eliminarProfesional(profesional : Profesional)
+  + ModificarProfesional(profesional : Profesional)
 }
 
 ' ==== RELACIONES ====
