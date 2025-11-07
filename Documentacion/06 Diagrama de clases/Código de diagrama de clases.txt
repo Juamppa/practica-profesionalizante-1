@@ -51,10 +51,9 @@ class Servicio {
 
   + getTipo() : String
   + getPrecio() : Float
-  + getDuracion() : String
   + setTipo(tipo : String)
   + setPrecio(precio : Float)
-  + setDuracion(duracion : String)
+  
 }
 
 class Controlador {
