@@ -1,0 +1,51 @@
+@startuml
+actor Administrador
+participant "Interfaz" as Web
+participant "Controlador" as Controlador
+participant "Profesional" as Profesional
+
+Administrador -> Web: Ingresar a la página
+activate Web
+
+Web -> Administrador: Mostrar opciones (Cliente / Administrador)
+Administrador -> Web: Seleccionar opción Administrador
+
+Web -> Administrador: Mostrar opciones ("Agregar", "Eliminar", "Modificar")
+Administrador -> Web: Seleccionar opción "Modificar"
+
+Web -> Administrador: Mostrar opciones ("Modificar servicio", "Modificar profesional")
+Administrador -> Web: Seleccionar "Modificar profesional"
+
+Web -> Controlador: obtenerProfesionales()
+activate Controlador
+Controlador -> Profesional: listarProfesionales()
+activate Profesional
+Profesional --> Controlador: Lista de profesionales cargados
+deactivate Profesional
+Controlador --> Web: Enviar lista de profesionales
+deactivate Controlador
+
+Web -> Administrador: Mostrar lista de profesionales disponibles
+Administrador -> Web: Seleccionar profesional a modificar
+
+alt Profesional seleccionado
+    Web -> Administrador: Mostrar formulario de modificación
+    Administrador -> Web: Ingresar datos modificados y presionar "Aceptar"
+
+    Web -> Controlador: modificarProfesional(profesionalActualizado)
+    activate Controlador
+    Controlador -> Profesional: actualizarDatos()
+    activate Profesional
+    Profesional --> Controlador: Confirmación de actualización
+    deactivate Profesional
+    Controlador --> Web: Confirmación de modificación
+    deactivate Controlador
+
+    Web -> Administrador: Mostrar mensaje “Profesional modificado con éxito”
+
+else Ningún profesional seleccionado
+    Web -> Administrador: Mostrar mensaje “Debe seleccionar al menos un profesional para modificar.”
+end
+
+deactivate Web
+@enduml

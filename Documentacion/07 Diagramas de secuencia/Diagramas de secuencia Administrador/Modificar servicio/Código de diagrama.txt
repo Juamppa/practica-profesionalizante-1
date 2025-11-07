@@ -1,0 +1,61 @@
+@startuml
+actor Administrador
+participant "Interfaz" as Web
+participant "Controlador" as Controlador
+participant "Servicio" as Servicio
+
+
+Administrador -> Web: Ingresar a la página
+activate Web
+
+Web -> Administrador: Mostrar opciones (Cliente / Administrador)
+Administrador -> Web: Seleccionar opción Administrador
+
+Web -> Administrador: Mostrar opciones ("Agregar", "Eliminar", "Modificar")
+Administrador -> Web: Seleccionar opción "Modificar"
+
+Web -> Administrador: Mostrar opciones ("Modificar servicio", "Modificar profesional")
+Administrador -> Web: Seleccionar "Modificar servicio"
+
+Web -> Controlador: obtenerServicios()
+activate Controlador
+Controlador -> Servicio: listarServicios()
+activate Servicio
+Servicio --> Controlador: Lista de servicios cargados
+deactivate Servicio
+Controlador --> Web: Enviar lista de servicios
+deactivate Controlador
+
+Web -> Administrador: Mostrar lista de servicios disponibles
+Administrador -> Web: Seleccionar servicio a modificar
+
+alt Servicio seleccionado
+    Web -> Controlador: solicitarDatosServicio(servicioSeleccionado)
+    activate Controlador
+    Controlador -> Servicio: obtenerDatos()
+    activate Servicio
+    Servicio --> Controlador: Datos actuales del servicio
+    deactivate Servicio
+    Controlador --> Web: Enviar datos a modificar
+    deactivate Controlador
+
+    Web -> Administrador: Mostrar campos del servicio para editar
+    Administrador -> Web: Modificar atributos y presionar "Aceptar"
+
+    Web -> Controlador: modificarServicio(servicioModificado)
+    activate Controlador
+    Controlador -> Servicio: actualizarDatos(servicioModificado)
+    activate Servicio
+    Servicio --> Controlador: Servicio actualizado
+    deactivate Servicio
+    Controlador --> Web: Confirmación de modificación
+    deactivate Controlador
+
+    Web -> Administrador: Mostrar mensaje “Servicio modificado con éxito”
+
+else Ningún servicio seleccionado
+    Web -> Administrador: Mostrar mensaje “Debe seleccionar al menos un servicio para modificar.”
+end
+
+deactivate Web
+@enduml
