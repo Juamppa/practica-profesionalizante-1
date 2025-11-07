@@ -1,14 +1,14 @@
 @startuml
-' VersiÃ³n UML 2.5+
+' Versión UML 2.5+
 !pragma teoz true
 
 ' ==== CLASES ====
 
 class Persona {
-  - nombre : String [100]
-  - apellido : String [100]
-  - email : String [100]
-  - telefono : int [20]
+  - nombre : String
+  - apellido : String
+  - email : String
+  - telefono : int
 
   + getNombre() : String
   + getApellido() : String
@@ -32,27 +32,21 @@ class Profesional {
 }
 
 class Administrador {
-  - telefonoAdministrador : int [20]
-  - turnos : List<Turno>
-  - clientes : List<Cliente>
-
-  + asignarProfesional(turno : Turno, profesional : Profesional)
-  + crearServicio(tipo : String, precio : Float, duracion : String) : Servicio
+  - telefonoAdministrador : int
 }
 
 class Turno {
-  - fechaHora : DateTime [15]
+  - fechaHora : DateTime
   - estado : String
   - servicio : Servicio
 
-  + calcularPrecioServicios() : Float
   + cambiarEstado(nuevoEstado : String)
   + consultarServicio() : Servicio
 }
 
 class Servicio {
-  - tipo : String [15]
-  - precio : Float [6]
+  - tipo : String
+  - precio : Float
   - duracion : String
 
   + getTipo() : String
@@ -64,6 +58,15 @@ class Servicio {
 }
 
 class Controlador {
+  - clientes : List<Cliente>
+  - turnos : List<Turno>
+
+  + crearServicio(tipo : String, precio : Float, duracion : String) : Servicio
+  + reservarTurno()
+  + modificarServicio(servicio : Servicio, nuevoTipo : String, nuevoPrecio : Float)
+  + eliminarServicio(servicio : Servicio)
+  + agregarProfesional(profesional : Profesional)
+  + eliminarProfesional(profesional : Profesional)
 }
 
 ' ==== RELACIONES ====
