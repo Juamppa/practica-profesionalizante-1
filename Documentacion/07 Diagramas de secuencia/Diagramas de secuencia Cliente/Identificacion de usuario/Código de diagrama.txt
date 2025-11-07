@@ -1,41 +1,35 @@
 @startuml
 actor Cliente
-boundary InterfazWeb
-control Controlador
-entity ClienteEntity
-database BaseDatos
+participant "Interfaz" as Web
+participant "Controlador" as Controlador
+participant "Cliente" as ObjCliente
 
-' Paso 1: El usuario ingresa a la página web
-Cliente -> InterfazWeb : ingresarPagina()
+Cliente -> Web: Ingresar a la página
+activate Web
 
-' Paso 2: La página muestra opciones de inicio
-InterfazWeb -> Cliente : mostrarOpcionesLogin()
+Web -> Cliente: Mostrar opciones (Cliente / Administrador)
+Cliente -> Web: Seleccionar opción Cliente
 
-' Paso 3: El usuario elige la opción "Cliente"
-Cliente -> InterfazWeb : seleccionarOpcion("Cliente")
+Web -> Cliente: Solicitar datos (nombre, apellido, teléfono, mail)
+Cliente -> Web: Ingresar datos
 
-' Paso 4: La página solicita nombre, apellido, teléfono y mail
-InterfazWeb -> Cliente : solicitarDatos(nombre, apellido, telefono, email)
+Web -> Controlador: validarDatos(nombre, apellido, teléfono, mail)
+activate Controlador
+Controlador -> ObjCliente: << create >> Cliente(nombre, apellido, teléfono, mail)
+activate ObjCliente
+ObjCliente --> Controlador: Datos cargados
+deactivate ObjCliente
 
-' Paso 5: El cliente ingresa sus datos
-Cliente -> InterfazWeb : ingresarDatos(nombre, apellido, telefono, email)
+Controlador -> Controlador: verificarDatos()
+Controlador --> Web: Resultado validación
+deactivate Controlador
 
-' Paso 6: La página envía los datos al controlador para validar
-InterfazWeb -> Controlador : validarDatos(nombre, apellido, telefono, email)
-
-' El controlador consulta en la base de datos si el cliente existe
-Controlador -> ClienteEntity : obtenerCliente(email, telefono)
-ClienteEntity -> BaseDatos : SELECT * FROM Cliente WHERE email, telefono
-BaseDatos --> ClienteEntity : datosCliente
-ClienteEntity --> Controlador : datosCliente
-
-' Verificación de validez
 alt Datos válidos
-    Controlador -> InterfazWeb : notificarValidacionExitosa()
-    InterfazWeb -> Cliente : mostrarInterfazPrincipal()
+    Web -> Cliente: Accede a interfaz principal
 else Datos inválidos
-    Controlador -> InterfazWeb : notificarError("mail inválido o teléfono inexistente")
-    InterfazWeb -> Cliente : mostrarMensajeError()
+    Web -> Cliente: Mostrar mensaje de error (“mail inválido” o “teléfono inexistente”)
+    Web -> Cliente: Volver al paso de ingreso de datos
 end
 
+deactivate Web
 @enduml

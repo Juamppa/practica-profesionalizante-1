@@ -61,7 +61,7 @@ class Controlador {
   - clientes : List<Cliente>
   - turnos : List<Turno>
 
-  + crearServicio(tipo : String, precio : Float, duracion : String) : Servicio
+  + crearServicio(tipo : String, precio : Float) : Servicio
   + reservarTurno()
   + modificarServicio(servicio : Servicio, nuevoTipo : String, nuevoPrecio : Float)
   + eliminarServicio(servicio : Servicio)

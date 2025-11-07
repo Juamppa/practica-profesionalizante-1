@@ -1,71 +1,54 @@
 @startuml
 actor Cliente
-boundary InterfazWeb
-control Controlador
-entity ClienteEntity
-entity Turno
-database BaseDatos
+participant "Interfaz" as Web
+participant "Controlador" as Controlador
+participant "Cliente" as ObjCliente
+participant "Turno" as Turno
 
-' Paso 1: El usuario ingresa a la página web
-Cliente -> InterfazWeb : ingresarPagina()
+Cliente -> Web: Ingresar a la página
+activate Web
 
-' Paso 2: La página muestra opciones de inicio
-InterfazWeb -> Cliente : mostrarOpcionesLogin()
+Web -> Cliente: Mostrar opciones (Cliente / Administrador)
+Cliente -> Web: Seleccionar opción Cliente
 
-' Paso 3: El usuario ingresa al apartado cliente
-Cliente -> InterfazWeb : seleccionarOpcion("Cliente")
+Web -> Cliente: Solicitar datos (nombre, apellido, teléfono, mail)
+Cliente -> Web: Ingresar datos
 
-' Paso 4: La página solicita los datos del cliente
-InterfazWeb -> Cliente : solicitarDatos(nombre, apellido, telefono, email)
+Web -> Controlador: validarDatos(nombre, apellido, teléfono, mail)
+activate Controlador
+Controlador -> ObjCliente: << create >> Cliente(nombre, apellido, teléfono, mail)
+activate ObjCliente
+ObjCliente --> Controlador: Datos cargados
+deactivate ObjCliente
 
-' Paso 5: El cliente ingresa sus datos
-Cliente -> InterfazWeb : ingresarDatos(nombre, apellido, telefono, email)
+Controlador -> Controlador: verificarDatos()
+Controlador --> Web: Resultado validación
+deactivate Controlador
 
-' Paso 6: La página envía los datos al controlador para validar
-InterfazWeb -> Controlador : validarDatos(nombre, apellido, telefono, email)
-Controlador -> ClienteEntity : obtenerCliente(email, telefono)
-ClienteEntity -> BaseDatos : SELECT * FROM Cliente WHERE email, telefono
-BaseDatos --> ClienteEntity : datosCliente
-ClienteEntity --> Controlador : datosCliente
-
-' Validación de datos
 alt Datos válidos
-    Controlador -> InterfazWeb : notificarValidacionExitosa()
-    InterfazWeb -> Cliente : mostrarInterfazPrincipal()
-    
-    ' Paso 8: La página muestra opción "Cancelar turno"
-    InterfazWeb -> Cliente : mostrarOpcion("Cancelar turno")
-    
-    ' Paso 9: El cliente selecciona su turno
-    Cliente -> InterfazWeb : seleccionarTurno(turnoSeleccionado)
-    
-    ' Paso 10: La página solicita la cancelación al controlador
-    InterfazWeb -> Controlador : cancelarTurno(turnoSeleccionado)
-    Controlador -> Turno : validarCancelacion(turnoSeleccionado)
-    Turno -> BaseDatos : SELECT fechaHora FROM Turnos WHERE idTurno = turnoSeleccionado
-    BaseDatos --> Turno : datosTurno
-    
-    ' Validación de tiempo para cancelación
-    alt Turno dentro del tiempo permitido
-        Turno -> BaseDatos : UPDATE Turnos SET estado = 'Cancelado' WHERE idTurno = turnoSeleccionado
-        BaseDatos --> Turno : confirmacionCancelacion
-        Turno --> Controlador : cancelacionExitosa
-        Controlador -> InterfazWeb : notificarCancelacionExitosa()
-        InterfazWeb -> Cliente : mostrarMensaje("Turno cancelado con éxito")
-    else Turno fuera del tiempo permitido
-        Controlador -> InterfazWeb : notificarError("Su turno no puede ser cancelado con menos de 24 horas de antelación")
-        InterfazWeb -> Cliente : mostrarMensajeError()
-    end
+    Web -> Cliente: Accede a interfaz principal
+    Web -> Cliente: Mostrar opción "Cancelar turno"
+    Cliente -> Web: Seleccionar turno a cancelar
 
+    Web -> Controlador: cancelarTurno(turnoSeleccionado)
+    activate Controlador
+    Controlador -> Turno: cambiarEstado("Cancelado")
+    activate Turno
+    Turno --> Controlador: Estado actualizado
+    deactivate Turno
+    Controlador --> Web: Confirmación de cancelación
+    deactivate Controlador
+
+    Web -> Cliente: Mostrar mensaje “Turno cancelado con éxito”
+    
 else Datos inválidos
-    ' Camino alternativo 5.a: Datos incorrectos
-    Controlador -> InterfazWeb : notificarErrorValidacion()
-    alt Mail inválido
-        InterfazWeb -> Cliente : mostrarMensaje("Mail inválido")
-    else Teléfono inexistente
-        InterfazWeb -> Cliente : mostrarMensaje("Teléfono inexistente")
-    end
-    InterfazWeb -> Cliente : volverPaso(3)
+    Web -> Cliente: Mostrar mensaje de error (“mail inválido” o “teléfono inexistente”)
+    Web -> Cliente: Volver al paso de ingreso de datos
 end
 
+alt Turno fuera de tiempo permitido
+    Web -> Cliente: Mostrar mensaje “Su turno no puede ser cancelado con menos de 24 horas de antelación”
+end
+
+deactivate Web
 @enduml
