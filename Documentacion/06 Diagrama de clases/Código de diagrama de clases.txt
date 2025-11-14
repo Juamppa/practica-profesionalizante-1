@@ -22,6 +22,9 @@ class Persona {
 }
 
 class Cliente {
+  + agregarCliente()
+  + modificarCliente()
+  + eliminarCliente()
 }
 
 class Profesional {
@@ -29,6 +32,9 @@ class Profesional {
   - agendaProfesional : List<Turno>
 
   + verAgenda() : List<Turno>
+  + agregarProfesional()
+  + modificarProfesional()
+  + eliminarProfesional()
 }
 
 class Administrador {
@@ -42,6 +48,9 @@ class Turno {
 
   + cambiarEstado(nuevoEstado : String)
   + consultarServicio() : Servicio
+  + agregarTurno()
+  + modificarTurno()
+  + eliminarTurno()
 }
 
 class Servicio {
@@ -53,20 +62,33 @@ class Servicio {
   + getPrecio() : Float
   + setTipo(tipo : String)
   + setPrecio(precio : Float)
-  
+  + agregarServicio()
+  + modificarServicio()
+  + eliminarServicio()
 }
 
 class Controlador {
   - clientes : List<Cliente>
   - turnos : List<Turno>
+  - servicio : List<Servicio>
 
-  + reservarTurno()
-  + crearServicio(tipo : String, precio : Float) : Servicio
-  + modificarServicio(servicio : Servicio, nuevoTipo : String, nuevoPrecio : Float)
-  + eliminarServicio(servicio : Servicio)
-  + agregarProfesional(profesional : Profesional)
-  + eliminarProfesional(profesional : Profesional)
-  + ModificarProfesional(profesional : Profesional)
+
+
+  + agregarProfesional(nombre : string, apellido : string)
+  + eliminarProfesional(nombre : string, apellido : string)
+  + ModificarProfesional(nombre : string, apellido : string)
+
+  + agregarTurno(fechaHora : dateTime, estado : string, servicio : string)
+  + modificarTurno(fechaHora : dateTime, estado : string, servicio : string)
+  + eliminarTurno(fechaHora : dateTime, estado : string, servicio : string)
+
+  + agregarServicio(tipo : string, precio : float)
+  + modificarServicio(tipo : string, precio : float)
+  + eliminarServicio(servicio : string)
+
+  + agregarCliente(nombre : string, apellido : string, email : string, telefono : int)
+  + modificarCliente(nombre : string, apellido : string, email : string, telefono : int)
+  + eliminarCliente(email : string)
 }
 
 ' ==== RELACIONES ====
@@ -85,3 +107,4 @@ Controlador --> Turno : gestiona >
 Controlador --> Servicio : administra >
 
 @enduml
+
