@@ -89,6 +89,8 @@ class Controlador {
   + agregarCliente(nombre : string, apellido : string, email : string, telefono : int)
   + modificarCliente(nombre : string, apellido : string, email : string, telefono : int)
   + eliminarCliente(email : string)
+  
+  +validarDatos()
 }
 
 ' ==== RELACIONES ====
