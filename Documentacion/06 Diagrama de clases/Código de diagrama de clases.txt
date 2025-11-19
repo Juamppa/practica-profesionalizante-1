@@ -93,10 +93,14 @@ class Controlador {
   + modificarCliente(nombre : string, apellido : string, email : string, telefono : int)
   + eliminarCliente(email : string)
   
+<<<<<<< HEAD
   + validarDatos()
   + consultarServicio()
   + consultarTurno()
   + consultarCliente()
+=======
+  +validarDatos()
+>>>>>>> 6bdf90e37403c96900b61fc1e5cce6d75c3187a7
 }
 
 ' ==== RELACIONES ====
