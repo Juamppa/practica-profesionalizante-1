@@ -1,0 +1,59 @@
+@startuml
+title: Cancelacion de turno
+' === PARTICIPANTES ===
+actor Cliente
+participant Sistema
+participant Controlador
+participant Turno
+
+' === 1. El cliente ingresa directamente sus datos ===
+Cliente -> Sistema: ingresarDatos(nombre, apellido, tel, mail)
+activate Sistema
+
+Sistema -> Controlador: validarDatos(nombre, apellido, tel, mail)
+activate Controlador
+
+Controlador --> Sistema: datosValidados
+deactivate Controlador
+
+' === 2. Cliente solicita cancelar su turno ===
+Cliente -> Sistema: solicitarCancelacion()
+
+Sistema -> Controlador: consultarTurnos()
+activate Controlador
+Controlador --> Sistema: listaTurnos
+deactivate Controlador
+
+Cliente -> Sistema: seleccionarTurno()
+
+Sistema -> Controlador: consultarTurno()
+activate Controlador
+
+Controlador -> Turno: buscarTurno()
+activate Turno
+Turno --> Controlador: turnoEncontrado
+deactivate Turno
+
+' === 3. Validación regla 24 horas ===
+Controlador -> Turno: verificarAnticipacion()
+activate Turno
+Turno --> Controlador: fueraDePlazo / enPlazo
+deactivate Turno
+
+alt Turno fuera de plazo
+    Controlador --> Sistema: mensaje("No puede cancelar con menos de 24h")
+    Sistema -> Cliente: mostrarError()
+else Turno en plazo
+    Controlador -> Turno: cambiarEstado("Cancelado")
+    activate Turno
+    Turno --> Controlador: estadoActualizado
+    deactivate Turno
+
+    Controlador --> Sistema: cancelacionOK
+    Sistema -> Cliente: confirmacionCancelacion()
+end
+
+deactivate Controlador
+deactivate Sistema
+
+@enduml

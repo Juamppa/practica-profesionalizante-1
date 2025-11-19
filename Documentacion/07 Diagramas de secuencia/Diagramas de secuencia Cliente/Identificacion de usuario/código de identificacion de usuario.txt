@@ -1,0 +1,35 @@
+@startuml
+!pragma teoz true
+title:  identificación de usuario
+actor Usuario
+participant Sistema
+participant Controlador
+participant Cliente
+
+Usuario -> Sistema : enviarDatos(nombre:String, apellido:String, tel:int, mail:String)
+activate Sistema
+
+Sistema -> Controlador : validarDatos(nombre,apellido,tel,mail)
+activate Controlador
+
+Controlador --> Sistema : <<retorno>> datosValidos:Boolean
+deactivate Controlador
+
+alt Datos válidos
+    Sistema -> Controlador : crearCliente(nombre,apellido,tel,mail)
+    activate Controlador
+    Controlador -> Cliente : <<create>> Cliente()
+    activate Cliente
+    Cliente --> Controlador : <<retorno>> clienteCreado
+    deactivate Cliente
+    Controlador --> Sistema : <<retorno>> clienteCreado
+    deactivate Controlador
+
+    Sistema --> Usuario : <<retorno>> accesoConcedido()
+else Datos inválidos
+    Sistema --> Usuario : <<retorno>> error("mail inválido / tel. inexistente")
+end
+
+deactivate Sistema
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+!pragma teoz true
+title: Carga de profesional
+actor Administrador
+participant Sistema
+participant Controlador
+participant Profesional
+
+Administrador -> Sistema : ingresarDatos(nombre:string,apellido:string,especialidad:string)
+activate Sistema
+
+Sistema -> Controlador : agregarPreofesional()
+activate Controlador
+
+Controlador -> Profesional : <<create>> Profesional()
+activate Profesional
+
+Profesional -> Profesional : \nagregarProfesional()
+Profesional --> Controlador : <<retorno>> profesionalCreado
+deactivate Profesional
+
+Controlador --> Sistema : <<retorno>> profesionalCreado
+deactivate Controlador
+
+Sistema --> Administrador : mostrarMensaje("Profesional agregado correctamente")
+deactivate Sistema
+
+@enduml

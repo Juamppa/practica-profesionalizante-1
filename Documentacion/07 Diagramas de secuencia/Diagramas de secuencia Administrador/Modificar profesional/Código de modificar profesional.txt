@@ -1,0 +1,38 @@
+@startuml
+!pragma teoz true
+title Modificar profesional
+actor Administrador
+participant Sistema
+participant Controlador
+participant Profesional
+
+' === 1. El administrador ingresa los datos modificados ===
+Administrador -> Sistema : ingresarDatosEditados(nombre:string, apellido:string, especialidad:string)
+activate Sistema
+
+' === 2. Solicitud al controlador ===
+Sistema -> Controlador : modificarProfesional(nombre:string, apellido:string, especialidad:string)
+activate Controlador
+
+' === 3. Se obtiene el objeto profesional ===
+Controlador -> Profesional : buscarProfesional()
+activate Profesional
+Profesional --> Controlador : profesionalEncontrado <<retorno>>
+deactivate Profesional
+
+' === 4. Modificación del profesional ===
+Controlador -> Profesional : modificarProfesional(nombre, apellido, especialidad)
+activate Profesional
+Profesional -> Profesional : \nactualizarDatos()
+Profesional --> Controlador : profesionalModificado <<retorno>>
+deactivate Profesional
+
+' === 5. Retorno al sistema ===
+Controlador --> Sistema : modificacionExitosa() <<retorno>>
+deactivate Controlador
+
+' === 6. Mensaje final ===
+Sistema --> Administrador : mostrarMensaje("Profesional modificado correctamente")
+deactivate Sistema
+
+@enduml

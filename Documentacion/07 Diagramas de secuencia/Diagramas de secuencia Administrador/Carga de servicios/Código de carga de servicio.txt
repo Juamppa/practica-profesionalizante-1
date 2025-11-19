@@ -1,0 +1,28 @@
+@startuml
+!pragma teoz true
+title: Carga de servicio
+actor Administrador
+participant Sistema
+participant Controlador
+participant Servicio
+
+Administrador -> Sistema : ingresarDatos(tipo:String, precio:Float)
+activate Sistema
+
+Sistema -> Controlador : agregarServicio(tipo, precio)
+activate Controlador
+
+Controlador -> Servicio : <<create>> Servicio()
+activate Servicio
+
+Servicio -> Servicio : \nagregarServicio()
+Servicio --> Controlador : <<retorno>> servicioCreado
+deactivate Servicio
+
+Controlador --> Sistema : <<retorno>> servicioCreado
+deactivate Controlador
+
+Sistema --> Administrador : mostrarMensaje("Servicio agregado correctamente")
+deactivate Sistema
+
+@enduml

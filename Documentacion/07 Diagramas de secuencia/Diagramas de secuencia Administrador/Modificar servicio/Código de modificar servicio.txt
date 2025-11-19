@@ -1,0 +1,38 @@
+@startuml
+!pragma teoz true
+title Modificar servicio
+actor Administrador
+participant Sistema
+participant Controlador
+participant Servicio
+
+' === 1. El administrador ingresa los datos modificados ===
+Administrador -> Sistema : ingresarDatosEditados(tipo:string,precio:float)
+activate Sistema
+
+' === 2. Solicitud al controlador ===
+Sistema -> Controlador : modificarServicio(tipo:string,precio:float)
+activate Controlador
+
+' === 3. Se obtiene el objeto profesional ===
+Controlador -> Servicio : ConsultarServicio()
+activate Servicio
+Servicio --> Controlador : servicioEncontrado <<retorno>>
+deactivate Servicio
+
+' === 4. Modificación del profesional ===
+Controlador -> Servicio : modificarServicio(tipo,precio)
+activate Servicio
+Servicio -> Servicio : \nactualizarDatos()
+Servicio --> Controlador : servicioModificado <<retorno>>
+deactivate Servicio
+
+' === 5. Retorno al sistema ===
+Controlador --> Sistema : modificacionExitosa() <<retorno>>
+deactivate Controlador
+
+' === 6. Mensaje final ===
+Sistema --> Administrador : mostrarMensaje("Servicio modificado correctamente")
+deactivate Sistema
+
+@enduml

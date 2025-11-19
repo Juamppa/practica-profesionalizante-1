@@ -22,12 +22,15 @@ class Persona {
 }
 
 class Cliente {
+  - idCliente : int
+  
   + agregarCliente()
   + modificarCliente()
   + eliminarCliente()
 }
 
 class Profesional {
+  - idProfesional : int
   - especialidad : String
   - agendaProfesional : List<Turno>
 
@@ -89,6 +92,11 @@ class Controlador {
   + agregarCliente(nombre : string, apellido : string, email : string, telefono : int)
   + modificarCliente(nombre : string, apellido : string, email : string, telefono : int)
   + eliminarCliente(email : string)
+  
+  + validarDatos()
+  + consultarServicio()
+  + consultarTurno()
+  + consultarCliente()
 }
 
 ' ==== RELACIONES ====
@@ -107,4 +115,3 @@ Controlador --> Turno : gestiona >
 Controlador --> Servicio : administra >
 
 @enduml
-

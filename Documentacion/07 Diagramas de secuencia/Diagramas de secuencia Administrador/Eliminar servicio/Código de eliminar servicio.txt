@@ -1,0 +1,31 @@
+@startuml
+title  Eliminar servicio
+
+' ==== PARTICIPANTES ====
+actor Administrador
+participant "Sistema" as Sistema
+participant "Controlador" as Controlador
+participant "Servicio" as Servicio
+
+' ==== SECUENCIA ====
+
+' El administrador selecciona un Servicio y confirma eliminación
+Administrador -> Sistema : solicitarEliminacionServicio (tipo:string, precio:float)
+activate Sistema
+
+Sistema -> Controlador : eliminarServicio(tipo:string, precio:float)
+activate Controlador
+
+' Se obtiene el objeto Servicio correspondiente
+Controlador -> Servicio : eliminarServicio()
+activate Servicio
+Servicio --> Controlador : servicioEliminado <<retorno>>
+deactivate Servicio
+
+Controlador --> Sistema : eliminacionExitosa() <<retorno>>
+deactivate Controlador
+
+Sistema -> Administrador : mostrarConfirmacion("Servicio eliminado") <<retorno>>
+deactivate Sistema
+
+@enduml
