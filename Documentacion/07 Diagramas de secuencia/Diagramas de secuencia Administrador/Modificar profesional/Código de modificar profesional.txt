@@ -1,38 +1,33 @@
 @startuml
-!pragma teoz true
-title Modificar profesional
+title Modificar Profesional
+
 actor Administrador
-participant Sistema
-participant Controlador
-participant Profesional
+participant "controlador : Controlador" as controlador
+participant "profesional : Profesional" as profesional
 
-' === 1. El administrador ingresa los datos modificados ===
-Administrador -> Sistema : ingresarDatosEditados(nombre:string, apellido:string, especialidad:string)
-activate Sistema
+' 1. El administrador ingresa los datos modificados
+Administrador -> controlador : ingresarDatosEditados(nombre : string, apellido : string, especialidad : string)
+activate controlador
 
-' === 2. Solicitud al controlador ===
-Sistema -> Controlador : modificarProfesional(nombre:string, apellido:string, especialidad:string)
-activate Controlador
+' 2. Búsqueda del profesional
+controlador -> profesional : buscarProfesional()
+activate profesional
+profesional --> controlador : <<profesionalEncontrado>>
+deactivate profesional
 
-' === 3. Se obtiene el objeto profesional ===
-Controlador -> Profesional : buscarProfesional()
-activate Profesional
-Profesional --> Controlador : profesionalEncontrado <<retorno>>
-deactivate Profesional
+' 3. Modificación del profesional
+controlador -> profesional : modificarProfesional(nombre : string, apellido : string, especialidad : string)
+activate profesional
 
-' === 4. Modificación del profesional ===
-Controlador -> Profesional : modificarProfesional(nombre, apellido, especialidad)
-activate Profesional
-Profesional -> Profesional : \nactualizarDatos()
-Profesional --> Controlador : profesionalModificado <<retorno>>
-deactivate Profesional
+profesional -> profesional : actualizarDatos()
+note right: actualiza los atributos\ncon los nuevos valores
 
-' === 5. Retorno al sistema ===
-Controlador --> Sistema : modificacionExitosa() <<retorno>>
-deactivate Controlador
+profesional --> controlador : <<profesionalModificado>>
 
-' === 6. Mensaje final ===
-Sistema --> Administrador : mostrarMensaje("Profesional modificado correctamente")
-deactivate Sistema
+deactivate profesional
 
+' 4. Mensaje de éxito al administrador
+controlador -> Administrador : <<mensaje: "Profesional modificado correctamente">>
+
+deactivate controlador
 @enduml

@@ -1,0 +1,37 @@
+@startuml
+title Autenticación del Administrador
+
+actor Administrador
+participant "controlador : Controlador" as controlador
+participant "administrador : Administrador" as administrador
+
+Administrador -> controlador : enviarTelefono(telefono : int)
+activate controlador
+
+controlador -> administrador : getTelefonoAdministrador()
+activate administrador
+administrador --> controlador : <<telefonoAdministrador : int>>
+deactivate administrador
+
+alt Teléfono válido
+    controlador -> controlador : generarCodigo()
+    note right: código aleatorio de 6 dígitos\nalmacenado temporalmente
+    
+    controlador -> Administrador : enviarCodigoWhatsapp(codigo : int)
+    
+    Administrador -> controlador : ingresarCodigo(codigoIngresado : int)
+    
+    controlador -> controlador : validarCodigo(codigoIngresado : int)
+    
+    alt Código correcto
+        controlador -> Administrador : <<accesoConcedido>>
+    else Código incorrecto
+        controlador -> Administrador : <<error: "Código incorrecto">>
+    end
+    
+else Teléfono inválido
+    controlador -> Administrador : <<error: "El número ingresado no es correcto">>
+end
+
+deactivate controlador
+@enduml

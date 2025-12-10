@@ -1,38 +1,33 @@
 @startuml
-!pragma teoz true
-title Modificar servicio
+title Modificar Servicio
+
 actor Administrador
-participant Sistema
-participant Controlador
-participant Servicio
+participant "controlador : Controlador" as controlador
+participant "servicio : Servicio" as servicio
 
-' === 1. El administrador ingresa los datos modificados ===
-Administrador -> Sistema : ingresarDatosEditados(tipo:string,precio:float)
-activate Sistema
+' 1. El administrador ingresa los datos modificados
+Administrador -> controlador : ingresarDatosEditados(tipo : string, precio : float)
+activate controlador
 
-' === 2. Solicitud al controlador ===
-Sistema -> Controlador : modificarServicio(tipo:string,precio:float)
-activate Controlador
+' 2. Búsqueda del servicio
+controlador -> servicio : consultarServicio()
+activate servicio
+servicio --> controlador : <<servicioEncontrado>>
+deactivate servicio
 
-' === 3. Se obtiene el objeto profesional ===
-Controlador -> Servicio : ConsultarServicio()
-activate Servicio
-Servicio --> Controlador : servicioEncontrado <<retorno>>
-deactivate Servicio
+' 3. Modificación del servicio
+controlador -> servicio : modificarServicio(tipo : string, precio : float)
+activate servicio
 
-' === 4. Modificación del profesional ===
-Controlador -> Servicio : modificarServicio(tipo,precio)
-activate Servicio
-Servicio -> Servicio : \nactualizarDatos()
-Servicio --> Controlador : servicioModificado <<retorno>>
-deactivate Servicio
+servicio -> servicio : actualizarDatos()
 
-' === 5. Retorno al sistema ===
-Controlador --> Sistema : modificacionExitosa() <<retorno>>
-deactivate Controlador
 
-' === 6. Mensaje final ===
-Sistema --> Administrador : mostrarMensaje("Servicio modificado correctamente")
-deactivate Sistema
+servicio --> controlador : <<servicioModificado>>
 
+deactivate servicio
+
+' 4. Mensaje de éxito al administrador
+controlador -> Administrador : <<mensaje: "Servicio modificado correctamente">>
+
+deactivate controlador
 @enduml

@@ -1,0 +1,24 @@
+startuml
+title Carga de Servicio
+
+actor Administrador
+participant "controlador : Controlador" as controlador
+participant "servicio : Servicio" as servicio
+
+Administrador -> controlador : ingresarDatos(tipo : string, precio : float)
+activate controlador
+
+controlador -> servicio :  agregarServicio(tipo : string, precio : float)
+activate servicio
+
+servicio -> servicio : agregarServicio()
+note right: inicializa los atributos\ny lo guarda en la lista interna del controlador
+
+servicio --> controlador : <<servicioCreado>>
+
+deactivate servicio
+
+controlador -> Administrador : <<mensaje: "Servicio agregado correctamente">>
+
+deactivate controlador
+@enduml

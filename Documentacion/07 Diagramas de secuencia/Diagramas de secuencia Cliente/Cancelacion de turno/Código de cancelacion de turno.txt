@@ -1,59 +1,42 @@
 @startuml
-title: Cancelacion de turno
-' === PARTICIPANTES ===
+title Cancelación de Turno
+
 actor Cliente
-participant Sistema
-participant Controlador
-participant Turno
+participant "controlador : Controlador" as controlador
+participant "turno : Turno" as turno
 
-' === 1. El cliente ingresa directamente sus datos ===
-Cliente -> Sistema: ingresarDatos(nombre, apellido, tel, mail)
-activate Sistema
+' 1. El cliente ingresa sus datos
+Cliente -> controlador : ingresarDatos(nombre : string, apellido : string, tel : int, email : string)
+activate controlador
 
-Sistema -> Controlador: validarDatos(nombre, apellido, tel, mail)
-activate Controlador
+controlador -> controlador : validarDatos(nombre, apellido, tel, email)
 
-Controlador --> Sistema: datosValidados
-deactivate Controlador
 
-' === 2. Cliente solicita cancelar su turno ===
-Cliente -> Sistema: solicitarCancelacion()
+' 2. Cliente solicita cancelar turno
+Cliente -> controlador : solicitarCancelacion()
 
-Sistema -> Controlador: consultarTurnos()
-activate Controlador
-Controlador --> Sistema: listaTurnos
-deactivate Controlador
+controlador -> turno : consultarTurno()
+activate turno
+turno --> controlador : <<turnoEncontrado>>
+deactivate turno
 
-Cliente -> Sistema: seleccionarTurno()
+' 3. Verificación de la regla de 24 hs
+controlador -> turno : verificarAnticipacion()
+activate turno
+turno --> controlador : <<enPlazo / fueraDePlazo>>
+deactivate turno
 
-Sistema -> Controlador: consultarTurno()
-activate Controlador
+alt Fuera de plazo (< 24 hs)
+    controlador -> Cliente : <<error: "No puede cancelar con menos de 24 hs de anticipación">>
 
-Controlador -> Turno: buscarTurno()
-activate Turno
-Turno --> Controlador: turnoEncontrado
-deactivate Turno
+else En plazo (≥ 24 hs)
+    controlador -> turno : cambiarEstado("Cancelado")
+    activate turno
+    turno --> controlador : <<estadoActualizado>>
+    deactivate turno
 
-' === 3. Validación regla 24 horas ===
-Controlador -> Turno: verificarAnticipacion()
-activate Turno
-Turno --> Controlador: fueraDePlazo / enPlazo
-deactivate Turno
-
-alt Turno fuera de plazo
-    Controlador --> Sistema: mensaje("No puede cancelar con menos de 24h")
-    Sistema -> Cliente: mostrarError()
-else Turno en plazo
-    Controlador -> Turno: cambiarEstado("Cancelado")
-    activate Turno
-    Turno --> Controlador: estadoActualizado
-    deactivate Turno
-
-    Controlador --> Sistema: cancelacionOK
-    Sistema -> Cliente: confirmacionCancelacion()
+    controlador -> Cliente : <<mensaje: "Turno cancelado correctamente">>
 end
 
-deactivate Controlador
-deactivate Sistema
-
+deactivate controlador
 @enduml

@@ -1,31 +1,28 @@
 @startuml
-!pragma teoz true
-title Solicitud de turno
+title Solicitud de Turno
+
 actor Usuario
-participant Sistema
-participant Controlador
-participant Turno
+participant "controlador : Controlador" as controlador
+participant "turno : Turno" as turno
 
-Usuario -> Sistema : seleccionarServicio(servicio:String)
-activate Sistema
+Usuario -> controlador : seleccionarServicio(servicio : string)
+activate controlador
 
-Usuario -> Sistema : seleccionarFechaHora(fechaHora:DateTime)
-Usuario -> Sistema : seleccionarProfesional(profesional:String)
+Usuario -> controlador : seleccionarFechaHora(fechaHora : DateTime)
 
-Sistema -> Controlador : agregarTurno(fechaHora, "pendiente", servicio)
-activate Controlador
+Usuario -> controlador : seleccionarProfesional(profesional : string)
 
-Controlador -> Turno : <<create>> Turno()
-activate Turno
+controlador -> turno : agregarTurno (fechaHora : DateTime, estado : string, servicio : string, profesional : string)
+activate turno
 
-Turno -> Turno : agregarTurno()
-Turno --> Controlador : <<retorno>> turnoCreado
-deactivate Turno
+turno -> turno : agregarTurno()
 
-Controlador --> Sistema : <<retorno>> turnoCreado
-deactivate Controlador
 
-Sistema --> Usuario : <<retorno>> turnoConfirmado()
-deactivate Sistema
+turno --> controlador : <<turnoCreado>>
 
+deactivate turno
+
+controlador -> Usuario : <<mensaje: "Turno confirmado correctamente">>
+
+deactivate controlador
 @enduml

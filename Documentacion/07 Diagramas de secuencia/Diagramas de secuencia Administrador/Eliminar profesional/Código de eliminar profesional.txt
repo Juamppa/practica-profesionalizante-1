@@ -1,31 +1,21 @@
 @startuml
-title Eliminar profesional
+title Eliminar Profesional
 
-' ==== PARTICIPANTES ====
 actor Administrador
-participant "Sistema" as Sistema
-participant "Controlador" as Controlador
-participant "Profesional" as ProfesionalObj
+participant "controlador : Controlador" as controlador
+participant "profesional : Profesional" as profesional
 
-' ==== SECUENCIA ====
+Administrador -> controlador : solicitarEliminacionProfesional(idProfesional : int)
+activate controlador
 
-' El administrador selecciona un profesional y confirma eliminación
-Administrador -> Sistema : solicitarEliminacionProfesional (idProfesional : int)
-activate Sistema
+controlador -> profesional : eliminarProfesional()
+activate profesional
 
-Sistema -> Controlador : eliminarProfesional(idProfesional : int)
-activate Controlador
+profesional --> controlador : <<profesionalEliminado>>
 
-' Se obtiene el objeto Profesional correspondiente
-Controlador -> ProfesionalObj : eliminarProfesional()
-activate ProfesionalObj
-ProfesionalObj --> Controlador : profesionalEliminado <<retorno>>
-deactivate ProfesionalObj
+deactivate profesional
 
-Controlador --> Sistema : eliminacionExitosa() <<retorno>>
-deactivate Controlador
+controlador -> Administrador : <<mensaje: "Profesional eliminado correctamente">>
 
-Sistema -> Administrador : mostrarConfirmacion("Profesional eliminado") <<retorno>>
-deactivate Sistema
-
+deactivate controlador
 @enduml

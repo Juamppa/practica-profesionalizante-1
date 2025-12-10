@@ -1,0 +1,24 @@
+@startuml
+title Carga de Profesional
+
+actor Administrador
+participant "controlador : Controlador" as controlador
+participant "profesional : Profesional" as profesional
+
+Administrador -> controlador : ingresarDatos(nombre : string, apellido : string, especialidad : string)
+activate controlador
+
+controlador -> profesional : agregarProfesional(nombre : string, apellido : string, especialidad : string)
+activate profesional
+
+profesional -> profesional : agregarProfesional()
+note right: inicializa los atributos\ny lo guarda en la lista interna del controlador
+
+profesional --> controlador : <<profesionalCreado>>
+
+deactivate profesional
+
+controlador -> Administrador : <<mensaje: "Profesional agregado correctamente">>
+
+deactivate controlador
+@enduml

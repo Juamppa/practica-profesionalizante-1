@@ -1,35 +1,28 @@
 @startuml
-!pragma teoz true
-title:  identificación de usuario
+title Identificación de Usuario
+
 actor Usuario
-participant Sistema
-participant Controlador
-participant Cliente
+participant "controlador : Controlador" as controlador
+participant "cliente : Cliente" as cliente
 
-Usuario -> Sistema : enviarDatos(nombre:String, apellido:String, tel:int, mail:String)
-activate Sistema
+Usuario -> controlador : enviarDatos(nombre : string, apellido : string, tel : int, email : string)
+activate controlador
 
-Sistema -> Controlador : validarDatos(nombre,apellido,tel,mail)
-activate Controlador
-
-Controlador --> Sistema : <<retorno>> datosValidos:Boolean
-deactivate Controlador
+controlador -> controlador : validarDatos(nombre, apellido, tel, email)
+note right: verifica formato y existencia
 
 alt Datos válidos
-    Sistema -> Controlador : crearCliente(nombre,apellido,tel,mail)
-    activate Controlador
-    Controlador -> Cliente : <<create>> Cliente()
-    activate Cliente
-    Cliente --> Controlador : <<retorno>> clienteCreado
-    deactivate Cliente
-    Controlador --> Sistema : <<retorno>> clienteCreado
-    deactivate Controlador
+    controlador -> cliente : agregarCliente (nombre : string, apellido : string, tel : int, email : string)
+    activate cliente
+    
+    cliente --> controlador : <<clienteCreado>>
+    deactivate cliente
+    
+    controlador -> Usuario : <<accesoConcedido>>
 
-    Sistema --> Usuario : <<retorno>> accesoConcedido()
 else Datos inválidos
-    Sistema --> Usuario : <<retorno>> error("mail inválido / tel. inexistente")
+    controlador -> Usuario : <<error: "Mail inválido o teléfono inexistente">>
 end
 
-deactivate Sistema
-
+deactivate controlador
 @enduml
