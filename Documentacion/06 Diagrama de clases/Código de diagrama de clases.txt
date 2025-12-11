@@ -99,6 +99,9 @@ class Controlador {
   + consultarTurno()
   + consultarCliente()
   + verificarAnticipacion()
+  + generarCodigo()
+  + validarCodigo()
+  
 
 }
 
