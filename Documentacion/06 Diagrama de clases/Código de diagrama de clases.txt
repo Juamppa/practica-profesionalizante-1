@@ -51,7 +51,7 @@ class Turno {
 
   + cambiarEstado(nuevoEstado : String)
   + consultarServicio() : Servicio
-  +verificarAnticipacion()
+  + verificarAnticipacion()
   + agregarTurno()
   + modificarTurno()
   + eliminarTurno()
@@ -71,24 +71,49 @@ class Servicio {
   + eliminarServicio()
 }
 
-class Controlador {
+' ==== CATALOGOS ====
+
+class CatalogoClientes {
   - clientes : List<Cliente>
+  + agregarCliente(c : Cliente)
+  + eliminarCliente(c : Cliente)
+  + buscarCliente(id : int) : Cliente
+}
+
+class CatalogoProfesionales {
+  - profesionales : List<Profesional>
+  + agregarProfesional(p : Profesional)
+  + eliminarProfesional(p : Profesional)
+  + buscarProfesional(id : int) : Profesional
+}
+
+class CatalogoServicios {
+  - servicios : List<Servicio>
+  + agregarServicio(s : Servicio)
+  + eliminarServicio(s : Servicio)
+  + buscarServicio(tipo : String) : Servicio
+}
+
+class CatalogoTurnos {
   - turnos : List<Turno>
-  - servicio : List<Servicio>
+  + agregarTurno(t : Turno)
+  + eliminarTurno(t : Turno)
+  + buscarTurno(fechaHora : DateTime) : Turno
+}
 
-
+class Controlador {
+  - catalogoClientes : CatalogoClientes
+  - catalogoProfesionales : CatalogoProfesionales
+  - catalogoServicios : CatalogoServicios
+  - catalogoTurnos : CatalogoTurnos
 
   + agregarProfesional(nombre : string, apellido : string)
   + eliminarProfesional(nombre : string, apellido : string)
-  + ModificarProfesional(nombre : string, apellido : string)
+  + modificarProfesional(nombre : string, apellido : string)
 
   + agregarTurno(fechaHora : dateTime, estado : string, servicio : string)
   + modificarTurno(fechaHora : dateTime, estado : string, servicio : string)
   + eliminarTurno(fechaHora : dateTime, estado : string, servicio : string)
-
-  + agregarServicio(tipo : string, precio : float)
-  + modificarServicio(tipo : string, precio : float)
-  + eliminarServicio(servicio : string)
 
   + agregarCliente(nombre : string, apellido : string, email : string, telefono : int)
   + modificarCliente(nombre : string, apellido : string, email : string, telefono : int)
@@ -101,8 +126,6 @@ class Controlador {
   + verificarAnticipacion()
   + generarCodigo()
   + validarCodigo()
-  
-
 }
 
 ' ==== RELACIONES ====
@@ -115,9 +138,17 @@ Profesional "1" -- "N" Turno : atiende >
 Administrador "1" -- "N" Servicio : gestiona >
 Turno "1" -- "N" Servicio : incluye >
 
-' ==== NUEVAS RELACIONES ====
 Administrador "1" --> "1" Controlador : utiliza >
-Controlador --> Turno : gestiona >
-Controlador --> Servicio : administra >
+
+' relaciones con catalogos
+Controlador --> CatalogoClientes
+Controlador --> CatalogoProfesionales
+Controlador --> CatalogoServicios
+Controlador --> CatalogoTurnos
+
+CatalogoClientes --> Cliente
+CatalogoProfesionales --> Profesional
+CatalogoServicios --> Servicio
+CatalogoTurnos --> Turno
 
 @enduml

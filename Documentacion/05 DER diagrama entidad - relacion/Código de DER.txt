@@ -31,6 +31,21 @@ entity Servicio {
 }
 
 ' =====================
+' NUEVAS ENTIDADES CATALOGO
+' =====================
+entity CatalogoProfesionales {
+}
+
+entity CatalogoServicios {
+}
+
+entity CatalogoClientes {
+}
+
+entity CatalogoTurnos {
+}
+
+' =====================
 ' Relaciones
 ' =====================
 relationship Solicita {
@@ -54,6 +69,19 @@ relationship Es_Cliente {
 relationship Es_Administrador {
 }
 
+' Relaciones de búsqueda
+relationship BuscarProfesional {
+}
+
+relationship BuscarServicio {
+}
+
+relationship BuscarCliente {
+}
+
+relationship BuscarTurno {
+}
+
 ' =====================
 ' Conexiones con cardinalidades
 ' =====================
@@ -66,7 +94,6 @@ Atiende -N- Turno
 Administrador -1- Gestiona
 Gestiona -N- Turno
 
-' Un turno puede incluir varios servicios
 Turno -N- Incluye
 Incluye -1- Servicio
 
@@ -79,5 +106,20 @@ Es_Profesional -1- Profesional
 
 Persona -1- Es_Administrador
 Es_Administrador -1- Administrador
+
+' =====================
+' CONEXIONES DE LOS CATALOGOS
+' =====================
+CatalogoProfesionales -1- BuscarProfesional
+BuscarProfesional -N- Profesional
+
+CatalogoServicios -1- BuscarServicio
+BuscarServicio -N- Servicio
+
+CatalogoClientes -1- BuscarCliente
+BuscarCliente -N- Cliente
+
+CatalogoTurnos -1- BuscarTurno
+BuscarTurno -N- Turno
 
 @endchen
