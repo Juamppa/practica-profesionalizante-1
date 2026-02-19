@@ -13,7 +13,7 @@
 1. **El usuario selecciona la opción "Eliminar profesional" desde el panel de administración.**  
 2. **El sistema muestra la lista de profesionales registrados.**  
 3. **El usuario selecciona uno o más profesionales que desea eliminar.**  
-4. **El sistema habilita el botón de eliminación y muestra un mensaje de confirmación (ej. "¿Está seguro de eliminar los profesionales seleccionados?").**  
+4. **El sistema habilita la eliminación y muestra un mensaje de confirmación "¿Está seguro de eliminar los profesionales seleccionados?".**  
 5. **El usuario confirma la eliminación (presiona "Eliminar" o "Aceptar").**  
 6. **El sistema elimina los profesionales seleccionados y muestra el mensaje: "Profesional(es) eliminado(s) correctamente".**
 
