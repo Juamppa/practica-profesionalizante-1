@@ -39,9 +39,6 @@
 
 **5a2. Regresa a la lista de profesionales (puede volver al paso 3 o al menú principal).**
 
-**6a. Error técnico al eliminar**
-
-**6a1. El sistema muestra el mensaje: "No se pudo eliminar el(los) profesional(es). Intente nuevamente o contacte soporte".**
 
 **Escenario de éxito:**
 
