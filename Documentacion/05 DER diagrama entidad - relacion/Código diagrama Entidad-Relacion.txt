@@ -1,0 +1,74 @@
+@startchen
+
+entity Persona {
+  nombre
+  apellido
+  email
+  telefono
+}
+
+entity Profesional {
+  especialidad
+}
+
+entity Cliente {
+}
+
+entity Administrador {
+}
+
+entity Turno {
+  fechaHora
+}
+
+entity Servicio {
+  tipo
+  precio
+  duracion
+}
+
+relationship Es_Profesional {
+}
+
+relationship Es_Cliente {
+}
+
+relationship Es_Administrador {
+}
+
+relationship Atiende {
+}
+
+relationship Solicita {
+}
+
+relationship Gestiona {
+}
+
+relationship Incluye {
+}
+
+' Generalización (1 a 1)
+Persona -1- Es_Profesional
+Es_Profesional -1- Profesional
+
+Persona -1- Es_Cliente
+Es_Cliente -1- Cliente
+
+Persona -1- Es_Administrador
+Es_Administrador -1- Administrador
+
+' Relaciones principales
+Profesional -1- Atiende
+Atiende -N- Turno
+
+Cliente -1- Solicita
+Solicita -1- Turno
+
+Administrador -1- Gestiona
+Gestiona -N- Turno
+
+Turno -N- Incluye
+Incluye -1- Servicio
+
+@endchen
