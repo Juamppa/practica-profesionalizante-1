@@ -1,0 +1,78 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Modificar servicio
+actor "admin:Administrador" as Admin
+participant "cp:Controlador" as Controlador
+participant "catS:CatalogoServicios" as Catalogo
+participant "servicios[i]:Servicio" as ServicioI
+participant "serv:Servicio" as Servicio
+
+
+Admin -> Controlador : modificarServicio(tipo)
+activate Controlador
+
+ 
+
+    alt Ningún servicio seleccionado
+        Controlador --> Admin : <<"Debe seleccionar al menos un servicio para modificar":string>>
+
+    else Servicio seleccionado
+
+        Controlador -> Catalogo : buscarServicio(tipo)
+        activate Catalogo
+
+            loop para cada servicios[i]
+                Catalogo -> ServicioI : getTipo()
+                activate ServicioI
+                ServicioI --> Catalogo : <<tipo: String>>
+                deactivate ServicioI
+
+                note over Catalogo, ServicioI
+                si tipo = tipoBuscado
+                cortar iteración
+                end note
+            end
+
+        Catalogo --> Controlador : <<serv: Servicio>>
+        deactivate Catalogo
+
+        Controlador -> Servicio : getTipo()
+        activate Servicio
+        Servicio --> Controlador : <<tipo: String>>
+        deactivate Servicio
+
+        Controlador -> Servicio : getPrecio()
+        activate Servicio
+        Servicio --> Controlador : <<precio: Float>>
+        deactivate Servicio
+
+        Controlador --> Admin : <<"Servicio disponible a editar":string>>
+
+       
+
+            
+
+            alt Datos inválidos o modificacion cancelada
+                Controlador --> Admin : <<"Datos inválidos o modificacion cancelada":string>>
+
+            else Datos válidos
+
+                Controlador -> Servicio : setTipo(tipo)
+                activate Servicio
+                Servicio --> Controlador : <<"Tipo modificado : string>>
+                deactivate Servicio
+
+                Controlador -> Servicio : setPrecio(precio)
+                activate Servicio
+                Servicio --> Controlador : <<"Precio modificado : float">>
+                deactivate Servicio
+
+                Controlador --> Admin : <<"Servicio modificado correctamente":string>>
+
+            end
+        
+    end
+
+deactivate Controlador
+
+@enduml

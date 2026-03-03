@@ -1,0 +1,56 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Eliminar profesional
+actor "admin:Administrador" as Admin
+participant "ctrl:Controlador" as Controlador
+participant "cp:CatalogoProfesionales" as Catalogo
+
+
+Admin -> Controlador : EliminarProfesional()
+activate Controlador
+
+    Controlador -> Catalogo : buscarProfesionales()
+    activate Catalogo
+    Catalogo --> Controlador : <<List<Profesional>>>
+    deactivate Catalogo
+
+Admin <<-- Controlador : <<"profesionales disponibles":string>>
+
+Admin -> Controlador : seleccionarProfesionales()
+
+
+    alt ningún profesional seleccionado
+        
+        Admin <<-- Controlador : <<"Debe seleccionar al menos un profesional para eliminar":string>>
+    
+    else profesionales seleccionados
+        
+        Admin <<-- Controlador : <<"¿Está seguro de eliminar los profesionales seleccionados?":string>>
+        
+        alt Administrador cancela
+            
+            Admin -> Controlador : cancelarOperacion()
+            Admin <<-- Controlador : <<"operacion cancelada":string>>
+        
+        else confirma eliminación
+            
+            Admin -> Controlador : confirmarOperacion()
+            
+            
+                loop para cada profSel en profsSeleccionados
+                    Controlador -> Catalogo : eliminarProfesional(profSel)
+                    activate Catalogo
+                    Catalogo --> Controlador
+                    deactivate Catalogo
+                end
+                
+            Admin <<-- Controlador : <<"Profesional(es) eliminado(s) correctamente":string>>
+            deactivate Controlador
+        
+        end
+        
+    end
+
+deactivate Controlador
+
+@enduml

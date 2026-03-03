@@ -1,0 +1,86 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Modificar profesional
+actor "admin:Administrador" as Admin
+participant "cp:Controlador" as Controlador
+participant "catP:CatalogoProfesionales" as Catalogo
+participant "profesionales[i]:Profesional" as ProfesionalI
+participant "prof:Profesional" as Profesional
+
+
+Admin -> Controlador : modificarProfesional()
+activate Controlador
+
+
+    alt Ningún profesional seleccionado
+        Controlador --> Admin : <<"Debe seleccionar al menos un profesional para modificar":string>>
+
+    else Profesional seleccionado
+
+        Controlador -> Catalogo : buscarProfesional(nombre,apellido)
+        activate Catalogo
+
+            loop para cada profesionales[i]
+                Catalogo -> ProfesionalI : getNombre()
+                activate ProfesionalI
+                ProfesionalI --> Catalogo : <<nombre: string>>
+                deactivate ProfesionalI
+                
+                Catalogo -> ProfesionalI : getApellido()
+                activate ProfesionalI
+                ProfesionalI --> Catalogo : <<apellido: string>>
+                deactivate ProfesionalI
+                
+                note over Catalogo, ProfesionalI
+                si nombre y apellido existen = true
+                corta iteracion
+                end note
+            end
+
+        Catalogo --> Controlador : <<prof: Profesional>>
+        deactivate Catalogo
+
+        
+
+        Controlador --> Admin : <<"Profesional disponible a editar":string>>
+
+        
+
+
+
+            alt Datos inválidos o modificacion cancelada
+                Controlador --> Admin : <<"Datos inválidos o modificacion cancelada":string>>
+            
+            else Datos válidos
+
+                Controlador -> Profesional : setNombre(nombre)
+                activate Profesional
+                Profesional --> Controlador : <<nombre : string>>
+                deactivate Profesional
+
+                Controlador -> Profesional : setApellido(apellido)
+                activate Profesional
+                Profesional --> Controlador : <<apellido : string>>
+                deactivate Profesional
+
+                Controlador -> Profesional : setDisponibilidad(disponibilidad)
+                activate Profesional
+                Profesional --> Controlador : <<disponibilidad : datetime>>
+                deactivate Profesional
+
+                Controlador -> Profesional : setEspecialidad(especialidad)
+                activate Profesional
+                Profesional --> Controlador : <<especialidad : string>>
+                deactivate Profesional
+
+               Controlador -> Profesional : 
+
+                Controlador --> Admin : <<"Profesional modificado correctamente":string>>
+
+            end
+        
+    end
+
+deactivate Controlador
+
+@enduml

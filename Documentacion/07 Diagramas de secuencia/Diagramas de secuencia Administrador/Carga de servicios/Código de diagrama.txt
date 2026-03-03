@@ -1,0 +1,70 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Registrar nuevo servicio
+actor "admin:Administrador" as Admin
+participant "ctrl:Controlador" as Controlador
+participant "cs:CatalogoServicios" as Catalogo
+participant "servicios[i]:Servicio" as ServicioI
+participant "nuevoServ:Servicio" as NuevoServ
+
+Admin -> Controlador : agregarServicio(tipo:String, precio:Float)
+activate Controlador
+
+note right of Controlador
+  valida que:
+  - tipo no esté vacío
+  - precio > 0
+end note
+
+alt datos inválidos
+
+    Controlador --> Admin : <<"Nombre obligatorio o precio inválido":string>>
+
+else datos válidos
+
+    Controlador -> Catalogo : buscarServicio(tipo)
+    activate Catalogo
+
+        loop para cada s en servicios
+
+            Catalogo -> ServicioI : getTipo()
+            activate ServicioI
+            ServicioI --> Catalogo : <<tipo:String>>
+            deactivate ServicioI
+
+            note over Catalogo, ServicioI
+              si tipo coincide
+              servicioExistente = true
+              cortar iteración
+            end note
+
+        end
+
+    Catalogo --> Controlador : <<servicioEncontrado:boolean>>
+    deactivate Catalogo
+
+    alt servicio ya existe
+
+        Controlador --> Admin : <<"Ya existe un servicio con ese nombre":string>>
+
+    else servicio no existe
+
+        create NuevoServ
+        Controlador -> NuevoServ : create(tipo, precio)
+       
+        NuevoServ --> Controlador 
+        
+
+        Controlador -> Catalogo : agregarServicio(nuevoServ)
+        activate Catalogo
+        Catalogo --> Controlador : <<null>>
+        deactivate Catalogo
+
+        Controlador --> Admin : <<"Servicio registrado correctamente":string>>
+
+    end
+end
+
+deactivate Controlador
+
+@enduml

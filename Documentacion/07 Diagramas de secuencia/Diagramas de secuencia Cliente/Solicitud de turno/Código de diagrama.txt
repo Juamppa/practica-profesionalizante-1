@@ -1,0 +1,126 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Solicitud de turno
+actor "cli:Cliente" as Cliente
+participant "ctrl:Controlador" as Controlador
+participant "cs:CatalogoServicios" as CatServ
+participant "cp:CatalogoProfesionales" as CatProf
+participant "ct:CatalogoTurnos" as CatTurnos
+participant "s:Servicio" as Servicio
+participant "nuevoTurno:Turno" as Turno
+participant "ws:ServicioWhatsApp" as WhatsApp
+
+'================ INICIO =================
+
+Cliente -> Controlador : solicitarTurno()
+activate Controlador
+
+Controlador -> CatServ : buscarServicios()
+activate CatServ
+CatServ --> Controlador : <<List<Servicios>>>
+deactivate CatServ
+
+Controlador --> Cliente : <<List<Servicios>>>
+deactivate Controlador
+
+'================ SERVICIOS =================
+
+Cliente -> Controlador : seleccionarServicio/s()
+activate Controlador
+
+Controlador -> Servicio : buscarServicio()
+activate Servicio
+Servicio --> Controlador : servicio(tipo:string)
+deactivate Servicio
+
+note right of Controlador
+  calcula fechas y horarios
+  disponibles según servicios
+end note
+
+Controlador --> Cliente : <<List<disponibilidad>>>
+deactivate Controlador
+
+Cliente -> Controlador : seleccionarFechaHora()
+activate Controlador
+
+'============= PROFESIONALES =============
+
+Controlador -> CatProf : buscarProfesional()
+activate CatProf
+CatProf --> Controlador : <<List<profesional>>>
+deactivate CatProf
+
+Controlador --> Cliente : <<List<profesional>>>
+deactivate Controlador
+
+Cliente -> Controlador : seleccionarProfesional()
+activate Controlador
+
+'============= CREACION PROVISIONAL =============
+
+create Turno
+Controlador -> Turno : create(fechaHora, profesional, servicio)
+
+activate Turno
+Turno --> Controlador : <<null>> 
+deactivate Turno
+deactivate Controlador
+
+note right of Controlador
+  genera código único
+  y lo almacena temporalmente
+end note
+
+Controlador -> WhatsApp : solicitarCodigo()
+activate Controlador
+activate WhatsApp
+WhatsApp --> Controlador : <<envioExitoso>>
+deactivate WhatsApp
+
+Controlador --> Cliente : <<"Ingrese el código recibido":string>>
+deactivate Controlador
+
+'============= VALIDACION CODIGO =============
+
+Cliente -> Controlador : ingresarCodigo()
+activate Controlador
+
+note right of Controlador
+  verifica coincidencia
+  y expiración (1 min)
+end note
+
+alt código incorrecto o expirado
+
+    Controlador -> CatTurnos : eliminarTurno(nuevoTurno)
+    activate CatTurnos
+    CatTurnos --> Controlador : <<null>>
+    deactivate CatTurnos
+
+    Controlador --> Cliente : <<"Código inválido o expirado":string>>
+    deactivate Controlador
+
+else código correcto
+
+    deactivate Controlador
+
+    Cliente -> Controlador : confirmarOperacion()
+    activate Controlador
+
+    Controlador -> Turno : cambiarEstado("Confirmado")
+    activate Turno
+    Turno --> Controlador : <<Estado actualizado>>
+    deactivate Turno
+
+    Controlador -> WhatsApp : enviarConfirmacion()
+    activate WhatsApp
+    WhatsApp --> Controlador : <<devuelve confirmacion definitiva>>
+    deactivate WhatsApp
+
+    Controlador --> Cliente : <<"Turno agendado correctamente":string>>
+    deactivate Controlador
+
+end
+
+@enduml

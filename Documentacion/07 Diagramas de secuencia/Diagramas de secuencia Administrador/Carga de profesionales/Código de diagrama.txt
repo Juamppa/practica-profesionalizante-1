@@ -1,0 +1,74 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Registrar nuevo profesional
+actor "admin:Administrador" as Admin
+participant "ctrl:Controlador" as Controlador
+participant "cp:CatalogoProfesionales" as Catalogo
+participant "profesionales[i]:Profesional" as ProfesionalI
+participant "nuevoProf:Profesional" as NuevoProf
+
+Admin -> Controlador : agregarProfesional(nombre:String, apellido:String)
+activate Controlador
+
+note right of Controlador
+  valida que nombre y apellido
+  no estén vacíos
+end note
+
+alt datos inválidos
+
+    Controlador --> Admin : <<"Nombre o apellido obligatorio":string>>
+
+else datos válidos
+
+    Controlador -> Catalogo : buscarProfesional(nombre, apellido)
+    activate Catalogo
+
+        loop para cada p en profesionales
+
+            Catalogo -> ProfesionalI : getNombre()
+            activate ProfesionalI
+            ProfesionalI --> Catalogo : <<nombre:String>>
+            deactivate ProfesionalI
+
+            Catalogo -> ProfesionalI : getApellido()
+            activate ProfesionalI
+            ProfesionalI --> Catalogo : <<apellido:String>>
+            deactivate ProfesionalI
+
+            note over Catalogo, ProfesionalI
+              si nombre y apellido coinciden
+              profesionalExistente = true
+              cortar iteración
+            end note
+
+        end
+
+    Catalogo --> Controlador : <<profesionalEncontrado>>
+    deactivate Catalogo
+
+    alt profesional ya existe
+
+        Controlador --> Admin : <<"Ya existe un profesional con ese nombre y apellido":string>>
+
+    else profesional no existe
+
+        create NuevoProf
+        Controlador -> NuevoProf : create(nombre, apellido)
+        
+        NuevoProf --> Controlador : 
+       
+
+        Controlador -> Catalogo : agregarProfesional(nuevoProf)
+        activate Catalogo
+        Catalogo --> Controlador : <<null>>
+        deactivate Catalogo
+
+        Controlador --> Admin : <<"Profesional registrado correctamente":string>>
+
+    end
+end
+
+deactivate Controlador
+
+@enduml

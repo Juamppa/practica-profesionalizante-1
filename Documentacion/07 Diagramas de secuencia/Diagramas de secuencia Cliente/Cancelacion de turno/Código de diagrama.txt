@@ -1,0 +1,66 @@
+@startuml
+title Diagrama de secuencia - Cancelar turno
+skinparam style strictuml
+
+actor "cli:Cliente" as Cliente
+participant "ctrl:Controlador" as Controlador
+participant "ct:CatalogoTurnos" as CatTurnos
+participant "prof:Profesional" as Profesional
+
+
+Cliente -> Controlador : verMisTurnos()
+activate Controlador
+
+loop segun turnos del cliente 
+    Controlador -> CatTurnos : buscarTurnos()
+    activate CatTurnos
+    CatTurnos --> Controlador : <<List<Turno>>>
+    deactivate CatTurnos
+    
+    note over Controlador,CatTurnos
+    busca:
+    - encuentra turno de cliente = corta iteracion y 
+    devuelve lista de sus turnos
+    end note
+end
+
+Controlador --> Cliente : <<List<Turno>>>
+deactivate Controlador
+
+
+Cliente -> Controlador : seleccionarTurno()
+activate Controlador
+
+Controlador --> Cliente : <<"¿Quiere cancelar este turno?":string>>
+deactivate Controlador
+
+
+Cliente -> Controlador : confirmarOperacion()
+activate Controlador
+
+note right of Controlador
+  verifica:
+  - estado activo
+  - que no haya pasado el turno
+  - regla 24hs anticipación
+end note
+
+alt no cumple condiciones
+
+    Controlador --> Cliente : <<"El turno no puede ser cancelado":string>>
+
+else cumple condiciones
+
+    Controlador -> CatTurnos : eliminarTurno()
+    activate CatTurnos
+    CatTurnos --> Controlador : <<null>>
+    deactivate CatTurnos
+
+    Controlador -> Profesional : liberarHorario()
+    activate Profesional
+    Profesional --> Controlador : <<null>>
+    deactivate Profesional
+
+    Controlador --> Cliente : <<"Turno cancelado correctamente":string>>
+
+end

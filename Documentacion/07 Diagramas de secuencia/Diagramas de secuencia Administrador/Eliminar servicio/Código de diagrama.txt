@@ -1,0 +1,56 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Eliminar servicio
+actor "admin:Administrador" as Admin
+participant "ctrl:Controlador" as Controlador
+participant "cs:CatalogoServicios" as Catalogo
+
+
+Admin -> Controlador : EliminarServicio()
+activate Controlador
+
+    Controlador -> Catalogo : buscarServicios()
+    activate Catalogo
+    Catalogo --> Controlador : <<List<Servicio>>>
+    deactivate Catalogo
+
+Admin <<-- Controlador : <<"servicios disponibles": string>>
+
+Admin -> Controlador : seleccionarServicios()
+
+
+    alt ningún servicio seleccionado
+        
+        Admin <<-- Controlador : <<"Debe seleccionar al menos un servicio para eliminar:string">>
+    
+    else servicios seleccionados
+        
+        Admin <<-- Controlador : <<"¿Está seguro de eliminar los servicios seleccionados?":string>>
+        
+        alt Administrador cancela
+            
+            Admin -> Controlador : cancelarOperacion()
+            Admin <<-- Controlador : <<"operacion cancelada":string>>
+        
+        else confirma eliminación
+            
+            Admin -> Controlador : confirmarOperacion()
+          
+            
+                loop para cada servSel en servsSeleccionados
+                    Controlador -> Catalogo : eliminarServicio(servSel)
+                    activate Catalogo
+                    Catalogo --> Controlador
+                    deactivate Catalogo
+                end
+                
+            Admin <<-- Controlador : <<"Servicio(s) eliminado(s) correctamente":string>>
+            deactivate Controlador
+        
+        end
+        
+    end
+
+deactivate Controlador
+
+@enduml

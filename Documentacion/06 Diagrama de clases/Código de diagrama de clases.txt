@@ -1,96 +1,85 @@
 @startuml
-' Version UML 2.5+
 !pragma teoz true
+skinparam style strictuml
 
-' ==== CLASES ====
+' =========================
+' ==== CLASES BASE ========
+' =========================
 
 class Persona {
   - nombre : String
   - apellido : String
   - email : String
   - telefono : int
-
-  + getNombre() : String
-  + getApellido() : String
-  + getEmail() : String
-  + getTelefono() : int
-
-  + setNombre(nombre : String)
-  + setApellido(apellido : String)
-  + setEmail(email : String)
-  + setTelefono(telefono : int)
 }
 
 class Cliente {
-  - idCliente : int
-  
-  + agregarCliente()
-  + modificarCliente()
-  + eliminarCliente()
+  + solicitarTurno(s : Servicio, p : Profesional, fechaHora : DateTime) : Turno
+  + cancelarTurno(t : Turno) : Boolean
+  + verMisTurnos() : List<Turno>
+  + seleccionarTurno()
+
+  + confirmarOperacion() : Boolean
+  + cancelarOperacion() : Boolean
+
+  + ingresarDatos() : Boolean
+  + ingresarCodigo(codigo : String) : Boolean
 }
 
 class Profesional {
-  - idProfesional : int
   - especialidad : String
-  - agendaProfesional : List<Turno>
+  - disponibilidad : List<DateTime>
 
-  + verAgenda() : List<Turno>
-  + agregarProfesional()
-  + modificarProfesional()
-  + eliminarProfesional()
+
 }
 
 class Administrador {
-  - telefonoAdministrador : int
-}
 
-class Turno {
-  - fechaHora : DateTime
-  - estado : String
-  - servicio : Servicio
 
-  + cambiarEstado(nuevoEstado : String)
-  + consultarServicio() : Servicio
-  + verificarAnticipacion()
-  + agregarTurno()
-  + modificarTurno()
-  + eliminarTurno()
+  + confirmarOperacion()
+  + cancelarOperacion()
+  + ingresarDatos()
+  + ingresarCodigo(codigo : int)
+  + seleccionarProfesionales() 
+  + actualizarDisponibilidad(fechaHora : DateTime)
 }
 
 class Servicio {
   - tipo : String
   - precio : Float
-  - duracion : String
-
-  + getTipo() : String
-  + getPrecio() : Float
-  + setTipo(tipo : String)
-  + setPrecio(precio : Float)
-  + agregarServicio()
-  + modificarServicio()
-  + eliminarServicio()
 }
 
-' ==== CATALOGOS ====
+class Turno {
+  - fechaHora : DateTime
+  - estado : String
+
+  + cambiarEstado(nuevoEstado : String)
+  + verificarAnticipacion() : Boolean
+}
+
+' =========================
+' ==== CATALOGOS ==========
+' =========================
 
 class CatalogoClientes {
   - clientes : List<Cliente>
   + agregarCliente(c : Cliente)
-  + eliminarCliente(c : Cliente)
-  + buscarCliente(id : int) : Cliente
+  + buscarCliente(telefono : int) : Cliente
 }
 
 class CatalogoProfesionales {
   - profesionales : List<Profesional>
   + agregarProfesional(p : Profesional)
   + eliminarProfesional(p : Profesional)
-  + buscarProfesional(id : int) : Profesional
+  + modificarProfesional(p : Profesional)
+  + buscarProfesional(nombre : String) : Profesional
 }
 
 class CatalogoServicios {
   - servicios : List<Servicio>
   + agregarServicio(s : Servicio)
   + eliminarServicio(s : Servicio)
+  + modificarServicio(s : Servicio)
   + buscarServicio(tipo : String) : Servicio
 }
 
@@ -101,54 +90,63 @@ class CatalogoTurnos {
   + buscarTurno(fechaHora : DateTime) : Turno
 }
 
+' =========================
+' ==== CONTROLADOR ========
+' =========================
+
 class Controlador {
   - catalogoClientes : CatalogoClientes
   - catalogoProfesionales : CatalogoProfesionales
   - catalogoServicios : CatalogoServicios
   - catalogoTurnos : CatalogoTurnos
 
-  + agregarProfesional(nombre : string, apellido : string)
-  + eliminarProfesional(nombre : string, apellido : string)
-  + modificarProfesional(nombre : string, apellido : string)
+  + agregarCliente(c : Cliente)
 
-  + agregarTurno(fechaHora : dateTime, estado : string, servicio : string)
-  + modificarTurno(fechaHora : dateTime, estado : string, servicio : string)
-  + eliminarTurno(fechaHora : dateTime, estado : string, servicio : string)
+  + agregarProfesional(p : Profesional)
+  + eliminarProfesional(p : Profesional)
+  + modificarProfesional(p : Profesional)
 
-  + agregarCliente(nombre : string, apellido : string, email : string, telefono : int)
-  + modificarCliente(nombre : string, apellido : string, email : string, telefono : int)
-  + eliminarCliente(email : string)
+  + agregarServicio(s : Servicio)
+  + eliminarServicio(s : Servicio)
+  + modificarServicio(s : Servicio)
+
+  + crearTurno(c : Cliente, p : Profesional, s : Servicio, fechaHora : DateTime) : Turno
+  + cancelarTurno(t : Turno)
+
+  + validarDatos() : Boolean
+  + enviarCodigo() : String
+  + validarCodigo(codigo : String) : Boolean
+  + enviarConfirmacion()
+  + liberarHorario(fechaHora : DateTime)
+
+  + buscarCliente(telefono : int) : Cliente
+  + buscarTurno(fechaHora : DateTime) : Turno
+  + buscarServicio(tipo : String) : Servicio
+  + buscarProfesional(nombre : String) : Profesional
   
-  + validarDatos()
-  + consultarServicio()
-  + consultarTurno()
-  + consultarCliente()
-  + verificarAnticipacion()
-  + generarCodigo()
-  + validarCodigo()
 }
 
-' ==== RELACIONES ====
+' =========================
+' ==== RELACIONES =========
+' =========================
+
 Persona <|-- Cliente
 Persona <|-- Profesional
 Persona <|-- Administrador
 
-Cliente "1" -- "N" Turno : solicita >
-Profesional "1" -- "N" Turno : atiende >
-Administrador "1" -- "N" Servicio : gestiona >
-Turno "1" -- "N" Servicio : incluye >
+Cliente "1" -- "0..*" Turno : solicita >
+Profesional "1" -- "0..*" Turno : atiende >
+Turno "1" -- "1..*" Servicio : incluye >
 
-Administrador "1" --> "1" Controlador : utiliza >
+CatalogoClientes "1" o-- "0..*" Cliente
+CatalogoProfesionales "1" o-- "0..*" Profesional
+CatalogoServicios "1" o-- "0..*" Servicio
+CatalogoTurnos "1" o-- "0..*" Turno
 
-' relaciones con catalogos
+Administrador --> Controlador
 Controlador --> CatalogoClientes
 Controlador --> CatalogoProfesionales
 Controlador --> CatalogoServicios
 Controlador --> CatalogoTurnos
-
-CatalogoClientes --> Cliente
-CatalogoProfesionales --> Profesional
-CatalogoServicios --> Servicio
-CatalogoTurnos --> Turno
 
 @enduml

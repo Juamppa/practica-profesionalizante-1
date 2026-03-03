@@ -1,0 +1,95 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Identificarse como cliente
+actor "cli:Cliente" as Cliente
+participant "ctrl:Controlador" as Controlador
+participant "cc:CatalogoClientes" as Catalogo
+participant "clientes[i]:Cliente" as ClienteI
+participant "nuevoCli:Cliente" as NuevoCliente
+
+Cliente -> Controlador : ingresarDatos(nombre:String, apellido:String, telefono:int, email:String)
+activate Controlador
+
+note right of Controlador
+  valida formato:
+  - email válido
+  - teléfono correcto
+  - campos obligatorios completos
+end note
+
+alt datos inválidos
+
+    Controlador --> Cliente : <<"Datos inválidos o incompletos":string>>
+
+else datos válidos
+
+    Controlador -> Catalogo : buscarCliente(telefono)
+    activate Catalogo
+
+        loop para cada c en clientes
+
+            Catalogo -> ClienteI : getTelefono()
+            activate ClienteI
+            ClienteI --> Catalogo : <<telefono:int>>
+            deactivate ClienteI
+
+            note over Catalogo, ClienteI
+              si telefono coincide
+              clienteEncontrado = true
+              cortar iteración
+            end note
+
+        end
+
+    Catalogo --> Controlador : <<clienteEncontrado:boolean>>
+    deactivate Catalogo
+
+    alt cliente existente
+
+        Controlador -> ClienteI : getNombre()
+        activate ClienteI
+        ClienteI --> Controlador : <<nombre:String>>
+        deactivate ClienteI
+
+        Controlador -> ClienteI : getApellido()
+        activate ClienteI
+        ClienteI --> Controlador : <<apellido:String>>
+        deactivate ClienteI
+
+        note right of Controlador
+          compara nombre y apellido
+          con los ingresados
+        end note
+
+        alt datos inconsistentes
+
+            Controlador --> Cliente : <<"Los datos no coinciden con un perfil existente":string>>
+
+        else datos correctos
+
+            Controlador --> Cliente : <<"Acceso concedido":string>>
+
+        end
+
+    else cliente no existe
+
+        create NuevoCliente
+        Controlador -> NuevoCliente : create(nombre, apellido, telefono, email)
+        
+        NuevoCliente --> Controlador 
+        
+        
+
+        Controlador -> Catalogo : agregarCliente(nuevoCli)
+        activate Catalogo
+        Catalogo --> Controlador : <<null>>
+        deactivate Catalogo
+
+        Controlador --> Cliente : <<"Perfil creado y acceso concedido":string">>
+
+    end
+end
+
+deactivate Controlador
+
+@enduml

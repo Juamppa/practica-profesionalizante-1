@@ -1,0 +1,66 @@
+@startuml
+skinparam style strictuml
+title Diagrama de secuencia - Autenticar como administrador
+actor "admin:Administrador" as Admin
+participant "ctrl:Controlador" as Controlador
+participant "adm:Administrador" as Administrador
+participant "ws:ServicioWhatsApp" as WhatsApp
+
+Admin -> Controlador : ingresarDatos(telefono:int)
+activate Controlador
+
+loop verificar telefono administrador
+
+    Controlador -> Administrador : getTelefono()
+    activate Administrador
+    Administrador --> Controlador : <<telefono:int>>
+    deactivate Administrador
+
+    note over Controlador, Administrador
+      si telefono coincide
+      adminEncontrado = true
+      cortar iteracion
+    end note
+
+end
+
+alt teléfono no registrado
+
+    Controlador --> Admin : <<"El número ingresado no está registrado como administrador":string>>
+
+else teléfono válido
+
+    note right of Controlador
+      genera código único
+      y lo almacena temporalmente
+    end note
+
+    Controlador -> WhatsApp : solicitarCodigo()
+    activate WhatsApp
+    WhatsApp --> Controlador : <<envioExitoso>>
+    deactivate WhatsApp
+
+    Controlador --> Admin : <<"Ingrese el código recibido":string>>
+
+    Admin -> Controlador : ingresarCodigo()
+
+    note right of Controlador
+      compara codigoIngresado
+      con codigo generado
+    end note
+
+    alt código incorrecto
+
+        Controlador --> Admin : <<"Código incorrecto":string>>
+
+    else código correcto
+
+        Controlador --> Admin : <<"Acceso concedido al panel de administración":string>>
+
+    end
+
+end
+
+deactivate Controlador
+
+@enduml
