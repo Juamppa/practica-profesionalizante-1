@@ -24,7 +24,6 @@ entity Turno {
 entity Servicio {
   tipo
   precio
-  duracion
 }
 
 relationship Es_Profesional {
