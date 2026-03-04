@@ -9,6 +9,7 @@ entity Persona {
 
 entity Profesional {
   especialidad
+  disponibilidad
 }
 
 entity Cliente {
