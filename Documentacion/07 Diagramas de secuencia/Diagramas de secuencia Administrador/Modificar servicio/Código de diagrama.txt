@@ -10,7 +10,11 @@ participant "serv:Servicio" as Servicio
 
 Admin -> Controlador : modificarServicio(tipo)
 activate Controlador
-
+Controlador -> Catalogo : buscarServicio()
+activate Catalogo
+Catalogo -> Controlador : << List <servicio> >>
+deactivate Catalogo
+Controlador -> Admin : << List <servicio> >>
  
 
     alt Ningún servicio seleccionado

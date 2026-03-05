@@ -10,7 +10,11 @@ participant "prof:Profesional" as Profesional
 
 Admin -> Controlador : modificarProfesional()
 activate Controlador
-
+Controlador -> Catalogo : buscarProfesional()
+activate Catalogo
+Catalogo -> Controlador : << List <profesional> >>
+deactivate Catalogo
+Controlador -> Admin : << List <profesional> >>
 
     alt Ningún profesional seleccionado
         Controlador --> Admin : <<"Debe seleccionar al menos un profesional para modificar":string>>
@@ -49,10 +53,10 @@ activate Controlador
 
 
             alt Datos inválidos o modificacion cancelada
-                Controlador --> Admin : <<"Datos inválidos o modificacion cancelada":string>>
+                Controlador --> Admin : <<"Modificacion cancelada":string>>
             
             else Datos válidos
-
+                Admin -> Controlador : ingresarDatos(nombre, apellido, disponibilidad, especialidad)
                 Controlador -> Profesional : setNombre(nombre)
                 activate Profesional
                 Profesional --> Controlador : <<nombre : string>>
@@ -73,7 +77,7 @@ activate Controlador
                 Profesional --> Controlador : <<especialidad : string>>
                 deactivate Profesional
 
-               Controlador -> Profesional : 
+               
 
                 Controlador --> Admin : <<"Profesional modificado correctamente":string>>
 
