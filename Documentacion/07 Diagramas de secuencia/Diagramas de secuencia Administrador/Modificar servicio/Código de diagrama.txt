@@ -10,7 +10,11 @@ participant "serv:Servicio" as Servicio
 
 Admin -> Controlador : modificarServicio(tipo)
 activate Controlador
-
+Controlador -> Catalogo : buscarServicio()
+activate Catalogo
+Catalogo -> Controlador : << List <servicio> >>
+deactivate Catalogo
+Controlador -> Admin : << List <servicio> >>
  
 
     alt Ningún servicio seleccionado
@@ -53,10 +57,11 @@ activate Controlador
             
 
             alt Datos inválidos o modificacion cancelada
-                Controlador --> Admin : <<"Datos inválidos o modificacion cancelada":string>>
+                
+                Controlador --> Admin : <<"Modificacion cancelada":string>>
 
             else Datos válidos
-
+                Admin -> Controlador : ingresarDatos(tipo, precio)
                 Controlador -> Servicio : setTipo(tipo)
                 activate Servicio
                 Servicio --> Controlador : <<"Tipo modificado : string>>
