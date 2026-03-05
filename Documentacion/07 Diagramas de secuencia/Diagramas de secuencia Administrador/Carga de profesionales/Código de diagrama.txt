@@ -54,7 +54,7 @@ else datos válidos
     else profesional no existe
 
         create NuevoProf
-        Controlador -> NuevoProf : create(nombre, apellido)
+        Controlador -> NuevoProf : create(nombre, apellido, especialidad)
         
         NuevoProf --> Controlador : 
        
