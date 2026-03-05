@@ -8,8 +8,6 @@
 
 *  El usuario debe poder seleccionar una fecha y hora disponibles.
 
-*  El usuario debe poder seleccionar el método de pago.
-
 *  La página debe solicitar y permitir ingresar los datos del cliente.
 
 *  La aplicación debe registrar la reserva en el sistema.
