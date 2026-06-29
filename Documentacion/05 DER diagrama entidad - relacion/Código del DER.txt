@@ -10,16 +10,20 @@ entity Persona {
 entity Profesional {
   especialidad
   disponibilidad
+  idProfesional
 }
 
 entity Cliente {
+idCliente
 }
 
 entity Administrador {
+idAdministrador
 }
 
 entity Turno {
   fechaHora
+  idTurno
 }
 
 entity Servicio {
