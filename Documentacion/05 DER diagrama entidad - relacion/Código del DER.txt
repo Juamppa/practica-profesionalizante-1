@@ -14,11 +14,11 @@ entity Profesional {
 }
 
 entity Cliente {
-idCliente
+  idCliente
 }
 
 entity Administrador {
-idAdministrador
+  idAdministrador
 }
 
 entity Turno {
@@ -46,9 +46,6 @@ relationship Atiende {
 relationship Solicita {
 }
 
-relationship Gestiona {
-}
-
 relationship Incluye {
 }
 
@@ -66,13 +63,12 @@ Es_Administrador -1- Administrador
 Profesional -1- Atiende
 Atiende -N- Turno
 
+' Corregido: Un cliente puede tener muchos (N) turnos
 Cliente -1- Solicita
-Solicita -1- Turno
+Solicita -N- Turno
 
-Administrador -1- Gestiona
-Gestiona -N- Turno
-
+' Corregido: Muchos turnos pueden incluir muchos (M) servicios
 Turno -N- Incluye
-Incluye -1- Servicio
+Incluye -M- Servicio
 
 @endchen
