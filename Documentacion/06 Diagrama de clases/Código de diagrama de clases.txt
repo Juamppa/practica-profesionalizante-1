@@ -11,49 +11,60 @@ class Persona {
   - apellido : String
   - email : String
   - telefono : int
+
+  + crearPersona()
 }
 
 class Cliente {
+  - idCliente : int
+
   + solicitarTurno(s : Servicio, p : Profesional, fechaHora : DateTime) : Turno
-  + cancelarTurno(t : Turno) : Boolean
+  + cancelarTurno(t : Turno) 
   + verMisTurnos() : List<Turno>
-  + seleccionarTurno()
-
-  + confirmarOperacion() : Boolean
-  + cancelarOperacion() : Boolean
-
-  + ingresarDatos() : Boolean
-  + ingresarCodigo(codigo : String) : Boolean
+  + seleccionarTurno() : void
+  + confirmarOperacion() : void
+  + cancelarOperacion() : void
+  + ingresarDatos(nombre:String, apellido:String, telefono:int, email:String) : Cliente
+  + ingresarCodigo(codigo : String) 
 }
 
 class Profesional {
+  - idProfesional : int
   - especialidad : String
   - disponibilidad : List<DateTime>
-
-
+  
+  + agregarProfesional(nombre:String, apellido:String, disponibilidad:DateTime, especialidad:String) : Profesional
+  + eliminarProfesional(idProfesional : int)
+  + modificarProfesional(nombre:String, apellido:String, disponibilidad:DateTime, especialidad:String) : Profesional
 }
 
 class Administrador {
+  - idAdmin : int
 
-
-  + confirmarOperacion()
-  + cancelarOperacion()
-  + ingresarDatos()
-  + ingresarCodigo(codigo : int)
-  + seleccionarProfesionales() 
+  + confirmarOperacion() : void
+  + cancelarOperacion() : void
+  + ingresarDatos(nombre:String, apellido:String, telefono:int) : Administrador
+  + ingresarCodigo(codigo : String) : void
+  + seleccionarProfesionales(List<Profesional>)
   + actualizarDisponibilidad(fechaHora : DateTime)
 }
 
 class Servicio {
   - tipo : String
-  - precio : Float
+  - precio : float
+
+  + agregarServicio(tipo:String, precio:float) : Servicio
+  + eliminarServicio(tipo:String, precio:float) 
+  + modificarServicio(tipo:String, precio:float) : Servicio
 }
 
 class Turno {
+  - idTurno : int
   - fechaHora : DateTime
-  - estado : String
+  - estado : String 
+  - servicios : List<Servicio> 
 
-  + cambiarEstado(nuevoEstado : String)
+  + cambiarEstado(Estado : String)
   + verificarAnticipacion() : Boolean
 }
 
@@ -64,7 +75,7 @@ class Turno {
 class CatalogoClientes {
   - clientes : List<Cliente>
   + agregarCliente(c : Cliente)
-  + buscarCliente(telefono : int) : Cliente
+  + buscarCliente(idCliente : int) : Cliente
 }
 
 class CatalogoProfesionales {
@@ -87,7 +98,11 @@ class CatalogoTurnos {
   - turnos : List<Turno>
   + agregarTurno(t : Turno)
   + eliminarTurno(t : Turno)
-  + buscarTurno(fechaHora : DateTime) : Turno
+  + buscarTurno(idTurno : int) : Turno
+}
+
+class CatalogoAdministradores {
+   - administradores : List<Administrador>
 }
 
 ' =========================
@@ -99,31 +114,30 @@ class Controlador {
   - catalogoProfesionales : CatalogoProfesionales
   - catalogoServicios : CatalogoServicios
   - catalogoTurnos : CatalogoTurnos
+  - catalogoAdministradores : CatalogoAdministradores
 
-  + agregarCliente(c : Cliente)
+  + agregarCliente(nombre:String, apellido:String, mail:String, telefono:int) : Cliente
+  + eliminarCliente(idCliente : int) 
 
-  + agregarProfesional(p : Profesional)
-  + eliminarProfesional(p : Profesional)
-  + modificarProfesional(p : Profesional)
+  + agregarProfesional(nombre:String, apellido:String, disponibilidad:DateTime, especialidad:String) : Profesional
+  + eliminarProfesional(idProfesional : int)
+  + modificarProfesional(disponibilidad:DateTime, especialidad:String) : Profesional
 
-  + agregarServicio(s : Servicio)
-  + eliminarServicio(s : Servicio)
-  + modificarServicio(s : Servicio)
+  + agregarServicio(tipo:String, precio:float) : Servicio
+  + eliminarServicio(tipo:String, precio:float)
+  + modificarServicio(tipo:String, precio:float) : Servicio
 
-  + crearTurno(c : Cliente, p : Profesional, s : Servicio, fechaHora : DateTime) : Turno
-  + cancelarTurno(t : Turno)
+  + crearTurno(c:Cliente, p:Profesional, s:Servicio, fechaHora:DateTime) : Turno
+  + cancelarTurno(idTurno : int) : Turno
 
   + validarDatos() : Boolean
   + enviarCodigo() : String
   + validarCodigo(codigo : String) : Boolean
-  + enviarConfirmacion()
-  + liberarHorario(fechaHora : DateTime)
 
-  + buscarCliente(telefono : int) : Cliente
-  + buscarTurno(fechaHora : DateTime) : Turno
+  + buscarCliente(idCliente : int) : Cliente
+  + buscarTurno(idTurno : int) : Turno
   + buscarServicio(tipo : String) : Servicio
-  + buscarProfesional(nombre : String) : Profesional
-  
+  + buscarProfesional(idProfesional : int) : Profesional
 }
 
 ' =========================
@@ -142,11 +156,12 @@ CatalogoClientes "1" o-- "0..*" Cliente
 CatalogoProfesionales "1" o-- "0..*" Profesional
 CatalogoServicios "1" o-- "0..*" Servicio
 CatalogoTurnos "1" o-- "0..*" Turno
+CatalogoAdministradores "1" o-- "0..*" Administrador
 
 Administrador --> Controlador
-Controlador --> CatalogoClientes
-Controlador --> CatalogoProfesionales
-Controlador --> CatalogoServicios
-Controlador --> CatalogoTurnos
-
+Controlador *-- CatalogoClientes
+Controlador *-- CatalogoProfesionales
+Controlador *-- CatalogoServicios
+Controlador *-- CatalogoTurnos
+Controlador *-- CatalogoAdministradores
 @enduml
